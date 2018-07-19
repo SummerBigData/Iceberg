@@ -1,0 +1,19 @@
+/users/PAS1383/osu10171/iceberg
+discarding /usr/local/anaconda/anaconda2/bin from PATH
+prepending /users/PAS1383/osu10171/.conda/envs/local/bin to PATH
+/var/spool/batch/torque/mom_priv/jobs/11217929.oak-batch.osc.edu.SC: line 40: 25378 Killed                  python -u iceVAEcnn.py &>outiVAEcnn7-19.log
+
+-----------------------
+Resources requested:
+nodes=1:ppn=1
+mem=16gb
+-----------------------
+Resources used:
+cput=00:01:22
+walltime=00:02:07
+mem=16.383 GB
+vmem=17.892 GB
+-----------------------
+Resource units charged (estimate):
+0.014 RUs
+-----------------------
