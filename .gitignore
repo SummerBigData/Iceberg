@@ -1,0 +1,9 @@
+**/hdf5
+
+vaeWeights/
+weights/
+models/
+data/
+
+weights/iceIter1Epo70Bsize100h10Trimsize0.hdf5
+
