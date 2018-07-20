@@ -9,5 +9,11 @@ iceVAEcnn.py:205: UserWarning: Output "decoder" missing from loss dictionary. We
   vae.compile(optimizer='adam', loss=None)
 Train on 10028 samples, validate on 10028 samples
 Epoch 1/25
-2018-07-19 17:40:57.811912: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-19 17:40:57.812249: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-19 17:57:14.137453: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-19 17:57:14.137984: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+20938s - loss: 46578332715665.9922 - val_loss: 1.9027
+Epoch 2/25
+20935s - loss: 7.4983 - val_loss: 1.7321
+Epoch 3/25
+20985s - loss: 1.7805 - val_loss: 1.7808
+Epoch 4/25

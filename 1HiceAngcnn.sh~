@@ -1,7 +1,7 @@
-#PBS -N runiVAEcnn7-19
-#PBS -l walltime=25:00:00
+#PBS -N runiAngCnn7-20
+#PBS -l walltime=02:30:00
 #PBS -l nodes=1:ppn=1
-#PBS -l mem=32GB
+#PBS -l mem=16GB
 #PBS -j oe
 # uncomment if using qsub
 if [ -z "$PBS_O_WORKDIR" ] 
@@ -21,4 +21,4 @@ source activate local
 
 #python -u icecnn.py $PBS_ARRAYID >& outIceCnn7-2_$PBS_ARRAYID.log
 
-python -u iceVAEcnn.py >& outiVAEcnn7-19.log
+python -u iceAngcnn.py $PBS_ARRAYID  >& outiAngCnn7-20_dn$PBS_ARRAYID.log

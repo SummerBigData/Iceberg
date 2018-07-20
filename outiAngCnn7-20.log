@@ -1,0 +1,77 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+ 
+2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+ 
+You have chosen: Namespace(bsize=200, epo=70, f1=11250, f2=50, f3=100, f4=1, h=0, imgsize=75, m=1604, trimsize=0)
+ 
+[[2.59307279e-04 2.23583910e-04 9.18726889e-05 9.18716398e-05
+  9.93672525e-05]
+ [2.59307279e-04 1.80072486e-04 4.24819004e-05 5.30650607e-05
+  8.46679586e-05]
+ [5.30662493e-05 5.30662493e-05 3.30741498e-05 6.48246357e-05
+  1.41260260e-04]
+ [4.24824042e-05 6.48253475e-05 1.15243817e-04 1.32293677e-04
+  1.50519056e-04]
+ [4.76273082e-05 4.24819004e-05 1.41261810e-04 1.41260260e-04
+  2.23573796e-04]] 1.3788759454433183e-06 143.37112342662002 0.1030444287337184
+x and y (1203, 75, 75, 3) (1203,)
+Loading Model
+2018-07-20 14:03:24.624419: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-20 14:03:24.624451: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Train on 1203 samples, validate on 401 samples
+Epoch 1/70
+103s - loss: 1.1303 - acc: 0.5611 - val_loss: 0.6405 - val_acc: 0.6484
+Epoch 2/70
+102s - loss: 0.7768 - acc: 0.6276 - val_loss: 0.6786 - val_acc: 0.6883
+Epoch 3/70
+101s - loss: 0.6382 - acc: 0.6916 - val_loss: 0.5739 - val_acc: 0.5436
+Epoch 4/70
+100s - loss: 0.5653 - acc: 0.6625 - val_loss: 0.5499 - val_acc: 0.7032
+Epoch 5/70
+101s - loss: 0.5543 - acc: 0.7232 - val_loss: 0.5552 - val_acc: 0.6958
+Epoch 6/70
+101s - loss: 0.5560 - acc: 0.7199 - val_loss: 0.5277 - val_acc: 0.7082
+Epoch 7/70
+101s - loss: 0.5350 - acc: 0.6933 - val_loss: 0.5553 - val_acc: 0.6908
+Epoch 8/70
+102s - loss: 0.5405 - acc: 0.7149 - val_loss: 0.5141 - val_acc: 0.7157
+Epoch 9/70
+101s - loss: 0.5415 - acc: 0.6908 - val_loss: 0.5916 - val_acc: 0.7207
+Epoch 10/70
+101s - loss: 0.5621 - acc: 0.7465 - val_loss: 0.5168 - val_acc: 0.7082
+Epoch 11/70
+102s - loss: 0.5109 - acc: 0.7024 - val_loss: 0.5106 - val_acc: 0.7357
+Epoch 12/70
+102s - loss: 0.4968 - acc: 0.7373 - val_loss: 0.4955 - val_acc: 0.7307
+Epoch 13/70
+102s - loss: 0.4960 - acc: 0.7057 - val_loss: 0.5038 - val_acc: 0.7357
+Epoch 14/70
+102s - loss: 0.4862 - acc: 0.7531 - val_loss: 0.5006 - val_acc: 0.7456
+Epoch 15/70
+103s - loss: 0.4889 - acc: 0.7648 - val_loss: 0.5100 - val_acc: 0.7456
+Epoch 16/70
+103s - loss: 0.5151 - acc: 0.7581 - val_loss: 0.4713 - val_acc: 0.7456
+Epoch 17/70
+103s - loss: 0.5423 - acc: 0.6243 - val_loss: 0.4810 - val_acc: 0.7531
+Epoch 18/70
+104s - loss: 0.4847 - acc: 0.7390 - val_loss: 0.4838 - val_acc: 0.7531
+Epoch 19/70
+103s - loss: 0.4754 - acc: 0.7714 - val_loss: 0.4703 - val_acc: 0.7556
+Epoch 20/70
+103s - loss: 0.4676 - acc: 0.7581 - val_loss: 0.4856 - val_acc: 0.7506
+Epoch 21/70
+103s - loss: 0.4821 - acc: 0.7382 - val_loss: 0.4663 - val_acc: 0.7531
+Epoch 22/70
+103s - loss: 0.4673 - acc: 0.7681 - val_loss: 0.4740 - val_acc: 0.7431
+Epoch 23/70
+103s - loss: 0.4734 - acc: 0.7382 - val_loss: 0.4745 - val_acc: 0.7556
+Epoch 24/70
+102s - loss: 0.4668 - acc: 0.7398 - val_loss: 0.4646 - val_acc: 0.7556
+Epoch 25/70
+102s - loss: 0.4550 - acc: 0.7706 - val_loss: 0.4548 - val_acc: 0.7556
+Epoch 26/70
+103s - loss: 0.4472 - acc: 0.7830 - val_loss: 0.4715 - val_acc: 0.7556
+Epoch 27/70
