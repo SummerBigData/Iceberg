@@ -143,17 +143,17 @@ d2 = Dropout(0.2)(c2)
 #p1 = MaxPooling2D(pool_size=(3, 3), strides=(2, 2))(c1)
 
 #Conv Layer 3
-c3 = Conv2D(128, kernel_size=(3, 3), activation='relu', padding='same')(d2)
+c3 = Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same')(d2)
 d3 = Dropout(0.2)(c3)
 #p2 = MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(c2)
-
+'''
 #Conv Layer 4
 c4 = Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same')(d3)
 d4 = Dropout(0.2)(c4)
 #p3 = MaxPooling2D(pool_size=(2, 2), strides=(2, 2))(c3)
-
+'''
 #Flatten the data for upcoming dense layer
-f1 = Flatten()(d4)
+f1 = Flatten()(d3)
 #Add hidden layer
 x = Dense(g.f2, activation='relu')(f1)
 z_mean = Dense(g.f3, name='z_mean')(x)
@@ -173,10 +173,12 @@ x = Dense(g.f2, activation='relu')(latent_inputs)
 #outputs = Dense(g.f1, activation='sigmoid')(x)
 y = Dense(75*75* 64, activation='relu')(x)
 re = Reshape((75, 75, 64))(y)
+'''
 d1 = Dropout(0.2)(re)
 dc1 = Conv2DTranspose(64, kernel_size=(3, 3), activation='relu', padding='same')(d1)
-d2 = Dropout(0.2)(dc1)
-dc2 = Conv2DTranspose(128, kernel_size=(3, 3), activation='relu', padding='same')(d2)
+'''
+d2 = Dropout(0.2)(y)
+dc2 = Conv2DTranspose(filters=64, kernel_size=(3, 3), activation='relu', padding='same')(d2)
 d3 = Dropout(0.2)(dc2)
 dc3 = Conv2DTranspose(64, kernel_size=(3, 3), activation='relu', padding='same')(d3)
 d4 = Dropout(0.2)(dc3)
@@ -211,7 +213,7 @@ vae.compile(optimizer='adam', loss=None)
 #vae.save('vaeModels/iceVae' + saveStr + '.hdf5')
 #print 'Saved the models'
 
-weight_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
+weight_path = 'vaeWeights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 
 callbacks = get_callbacks(filepath=weight_path, patience=5)
 

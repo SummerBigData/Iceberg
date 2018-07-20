@@ -5,73 +5,103 @@ Using TensorFlow backend.
 2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 
 [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
  
-You have chosen: Namespace(bsize=200, epo=70, f1=11250, f2=50, f3=100, f4=1, h=0, imgsize=75, m=1604, trimsize=0)
+You have chosen: Namespace(bsize=200, epo=100, f1=11250, f2=50, f3=100, f4=1, h=0, imgsize=75, m=1604, trimsize=0)
  
-[[2.59307279e-04 2.23583910e-04 9.18726889e-05 9.18716398e-05
-  9.93672525e-05]
- [2.59307279e-04 1.80072486e-04 4.24819004e-05 5.30650607e-05
-  8.46679586e-05]
- [5.30662493e-05 5.30662493e-05 3.30741498e-05 6.48246357e-05
-  1.41260260e-04]
- [4.24824042e-05 6.48253475e-05 1.15243817e-04 1.32293677e-04
-  1.50519056e-04]
- [4.76273082e-05 4.24819004e-05 1.41261810e-04 1.41260260e-04
-  2.23573796e-04]] 1.3788759454433183e-06 143.37112342662002 0.1030444287337184
+[[0.00259307 0.00223584 0.00091873 0.00091872 0.00099367]
+ [0.00259307 0.00180072 0.00042482 0.00053065 0.00084668]
+ [0.00053066 0.00053066 0.00033074 0.00064825 0.0014126 ]
+ [0.00042482 0.00064825 0.00115244 0.00132294 0.00150519]
+ [0.00047627 0.00042482 0.00141262 0.0014126  0.00223574]] 1.3788759454433183e-05 1433.7112342662 1.0304442873371844
+[ 0.     38.9194 38.2635 35.6588 43.2107] [0. 0. 0. 1. 0.]
 x and y (1203, 75, 75, 3) (1203,)
 Loading Model
-2018-07-20 14:03:24.624419: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-20 14:03:24.624451: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-20 16:32:58.614013: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-20 16:32:58.614046: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
 Train on 1203 samples, validate on 401 samples
-Epoch 1/70
-103s - loss: 1.1303 - acc: 0.5611 - val_loss: 0.6405 - val_acc: 0.6484
-Epoch 2/70
-102s - loss: 0.7768 - acc: 0.6276 - val_loss: 0.6786 - val_acc: 0.6883
-Epoch 3/70
-101s - loss: 0.6382 - acc: 0.6916 - val_loss: 0.5739 - val_acc: 0.5436
-Epoch 4/70
-100s - loss: 0.5653 - acc: 0.6625 - val_loss: 0.5499 - val_acc: 0.7032
-Epoch 5/70
-101s - loss: 0.5543 - acc: 0.7232 - val_loss: 0.5552 - val_acc: 0.6958
-Epoch 6/70
-101s - loss: 0.5560 - acc: 0.7199 - val_loss: 0.5277 - val_acc: 0.7082
-Epoch 7/70
-101s - loss: 0.5350 - acc: 0.6933 - val_loss: 0.5553 - val_acc: 0.6908
-Epoch 8/70
-102s - loss: 0.5405 - acc: 0.7149 - val_loss: 0.5141 - val_acc: 0.7157
-Epoch 9/70
-101s - loss: 0.5415 - acc: 0.6908 - val_loss: 0.5916 - val_acc: 0.7207
-Epoch 10/70
-101s - loss: 0.5621 - acc: 0.7465 - val_loss: 0.5168 - val_acc: 0.7082
-Epoch 11/70
-102s - loss: 0.5109 - acc: 0.7024 - val_loss: 0.5106 - val_acc: 0.7357
-Epoch 12/70
-102s - loss: 0.4968 - acc: 0.7373 - val_loss: 0.4955 - val_acc: 0.7307
-Epoch 13/70
-102s - loss: 0.4960 - acc: 0.7057 - val_loss: 0.5038 - val_acc: 0.7357
-Epoch 14/70
-102s - loss: 0.4862 - acc: 0.7531 - val_loss: 0.5006 - val_acc: 0.7456
-Epoch 15/70
-103s - loss: 0.4889 - acc: 0.7648 - val_loss: 0.5100 - val_acc: 0.7456
-Epoch 16/70
-103s - loss: 0.5151 - acc: 0.7581 - val_loss: 0.4713 - val_acc: 0.7456
-Epoch 17/70
-103s - loss: 0.5423 - acc: 0.6243 - val_loss: 0.4810 - val_acc: 0.7531
-Epoch 18/70
-104s - loss: 0.4847 - acc: 0.7390 - val_loss: 0.4838 - val_acc: 0.7531
-Epoch 19/70
-103s - loss: 0.4754 - acc: 0.7714 - val_loss: 0.4703 - val_acc: 0.7556
-Epoch 20/70
-103s - loss: 0.4676 - acc: 0.7581 - val_loss: 0.4856 - val_acc: 0.7506
-Epoch 21/70
-103s - loss: 0.4821 - acc: 0.7382 - val_loss: 0.4663 - val_acc: 0.7531
-Epoch 22/70
-103s - loss: 0.4673 - acc: 0.7681 - val_loss: 0.4740 - val_acc: 0.7431
-Epoch 23/70
-103s - loss: 0.4734 - acc: 0.7382 - val_loss: 0.4745 - val_acc: 0.7556
-Epoch 24/70
-102s - loss: 0.4668 - acc: 0.7398 - val_loss: 0.4646 - val_acc: 0.7556
-Epoch 25/70
-102s - loss: 0.4550 - acc: 0.7706 - val_loss: 0.4548 - val_acc: 0.7556
-Epoch 26/70
-103s - loss: 0.4472 - acc: 0.7830 - val_loss: 0.4715 - val_acc: 0.7556
-Epoch 27/70
+Epoch 1/100
+109s - loss: 1.1457 - acc: 0.6160 - val_loss: 1.1007 - val_acc: 0.6983
+Epoch 2/100
+108s - loss: 0.9856 - acc: 0.6692 - val_loss: 1.4555 - val_acc: 0.4688
+Epoch 3/100
+108s - loss: 0.7902 - acc: 0.6160 - val_loss: 0.6921 - val_acc: 0.6983
+Epoch 4/100
+108s - loss: 0.6967 - acc: 0.7332 - val_loss: 0.6750 - val_acc: 0.6908
+Epoch 5/100
+109s - loss: 0.5755 - acc: 0.7298 - val_loss: 0.5603 - val_acc: 0.7007
+Epoch 6/100
+109s - loss: 0.5500 - acc: 0.6949 - val_loss: 0.5759 - val_acc: 0.6783
+Epoch 7/100
+108s - loss: 0.5452 - acc: 0.7265 - val_loss: 0.5464 - val_acc: 0.7132
+Epoch 8/100
+108s - loss: 0.5333 - acc: 0.7315 - val_loss: 0.5387 - val_acc: 0.7057
+Epoch 9/100
+109s - loss: 0.5436 - acc: 0.7249 - val_loss: 0.5472 - val_acc: 0.7032
+Epoch 10/100
+110s - loss: 0.5342 - acc: 0.7448 - val_loss: 0.5441 - val_acc: 0.7232
+Epoch 11/100
+111s - loss: 0.5155 - acc: 0.7332 - val_loss: 0.5333 - val_acc: 0.7082
+Epoch 12/100
+111s - loss: 0.5004 - acc: 0.7174 - val_loss: 0.5092 - val_acc: 0.7307
+Epoch 13/100
+110s - loss: 0.5051 - acc: 0.7373 - val_loss: 0.5116 - val_acc: 0.7232
+Epoch 14/100
+109s - loss: 0.4901 - acc: 0.7473 - val_loss: 0.5108 - val_acc: 0.7307
+Epoch 15/100
+109s - loss: 0.5021 - acc: 0.7589 - val_loss: 0.5106 - val_acc: 0.7307
+Epoch 16/100
+109s - loss: 0.5116 - acc: 0.7548 - val_loss: 0.5012 - val_acc: 0.7132
+Epoch 17/100
+109s - loss: 0.5573 - acc: 0.6683 - val_loss: 0.5376 - val_acc: 0.7157
+Epoch 18/100
+109s - loss: 0.4912 - acc: 0.7589 - val_loss: 0.4870 - val_acc: 0.7357
+Epoch 19/100
+109s - loss: 0.4815 - acc: 0.7631 - val_loss: 0.4888 - val_acc: 0.7431
+Epoch 20/100
+109s - loss: 0.4822 - acc: 0.7648 - val_loss: 0.4864 - val_acc: 0.7431
+Epoch 21/100
+109s - loss: 0.4681 - acc: 0.7589 - val_loss: 0.4653 - val_acc: 0.7506
+Epoch 22/100
+109s - loss: 0.4682 - acc: 0.7697 - val_loss: 0.4581 - val_acc: 0.7606
+Epoch 23/100
+109s - loss: 0.4950 - acc: 0.7207 - val_loss: 0.4723 - val_acc: 0.7481
+Epoch 24/100
+112s - loss: 0.4642 - acc: 0.7697 - val_loss: 0.4725 - val_acc: 0.7656
+Epoch 25/100
+112s - loss: 0.4742 - acc: 0.7249 - val_loss: 0.4606 - val_acc: 0.7531
+Epoch 26/100
+110s - loss: 0.4712 - acc: 0.7805 - val_loss: 0.4666 - val_acc: 0.7606
+Epoch 27/100
+110s - loss: 0.4603 - acc: 0.7797 - val_loss: 0.4371 - val_acc: 0.7756
+Epoch 28/100
+110s - loss: 0.4340 - acc: 0.7872 - val_loss: 0.4250 - val_acc: 0.7855
+Epoch 29/100
+109s - loss: 0.4159 - acc: 0.8022 - val_loss: 0.4867 - val_acc: 0.7581
+Epoch 30/100
+108s - loss: 0.4943 - acc: 0.7706 - val_loss: 0.4796 - val_acc: 0.7706
+Epoch 31/100
+108s - loss: 0.4586 - acc: 0.7872 - val_loss: 0.4781 - val_acc: 0.7656
+Epoch 32/100
+109s - loss: 0.4700 - acc: 0.7756 - val_loss: 0.4272 - val_acc: 0.7880
+Epoch 33/100
+109s - loss: 0.4123 - acc: 0.8030 - val_loss: 0.4126 - val_acc: 0.7855
+Epoch 34/100
+109s - loss: 0.4156 - acc: 0.8005 - val_loss: 0.4069 - val_acc: 0.7905
+Epoch 35/100
+109s - loss: 0.3973 - acc: 0.8155 - val_loss: 0.3984 - val_acc: 0.8155
+Epoch 36/100
+111s - loss: 0.3841 - acc: 0.8288 - val_loss: 0.4061 - val_acc: 0.8055
+Epoch 37/100
+113s - loss: 0.3785 - acc: 0.8296 - val_loss: 0.4026 - val_acc: 0.8130
+Epoch 38/100
+112s - loss: 0.3781 - acc: 0.8246 - val_loss: 0.4101 - val_acc: 0.8130
+Epoch 39/100
+108s - loss: 0.3671 - acc: 0.8404 - val_loss: 0.4067 - val_acc: 0.8105
+Epoch 40/100
+108s - loss: 0.3951 - acc: 0.8163 - val_loss: 0.3980 - val_acc: 0.8155
+Epoch 41/100
+108s - loss: 0.5635 - acc: 0.6933 - val_loss: 0.4811 - val_acc: 0.7681
+Epoch 42/100
+108s - loss: 0.5837 - acc: 0.7864 - val_loss: 0.5549 - val_acc: 0.7731
+Epoch 43/100
+108s - loss: 1.3634 - acc: 0.6750 - val_loss: 0.7368 - val_acc: 0.6908
+Epoch 44/100

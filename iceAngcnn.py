@@ -43,10 +43,10 @@ g.f2 = 50
 g.f3 = 100
 g.f4 = 1
 g.imgsize = 75 - g.trimsize
-g.epo = 70#300
+g.epo = 100#300
 g.bsize = 200
 #saveStr = 'icem'+str(g.m)+'epo'+str(g.epo)+'bsize'+str(g.bsize)+'trimsize'+str(g.trimsize)
-saveStr = 'iceEpo'+str(g.epo)+'Bsize'+str(g.bsize)#+'h'+str(g.h)+'Trimsize'+str(g.trimsize)
+saveStr = 'iceEpoAng'+str(g.epo)+'Bsize'+str(g.bsize)#+'h'+str(g.h)+'Trimsize'+str(g.trimsize)
 print 'You have chosen:', g
 print ' '
 
@@ -105,24 +105,24 @@ def getModel():
 
 	#Dense Layer 1
 	D1 = Dense(512, activation = "relu")(M1)
-	d5 = Dropout(0.2)(D1)
+	#d5 = Dropout(0.2)(D1)
 	#Dense Layer 2
-	D2 = Dense(256, activation = "relu")(d5)
-	d6 = Dropout(0.2)(D2)
+	D2 = Dense(256, activation = "relu")(D1)
+	#d6 = Dropout(0.2)(D2)
 	#Dense Layer 3
-	D3 = Dense(64, activation = "relu")(d6)
-	d7 = Dropout(0.2)(D3)
+	D3 = Dense(64, activation = "relu")(D2)
+	#d7 = Dropout(0.2)(D3)
 	
 	#Sigmoid Layer
-	S1 = Dense(1, activation = "sigmoid")(d6)
+	S1 = Dense(1, activation = "sigmoid")(D3)
 
 	gmodel = Model(inputs=([first_inp, second_inp]), outputs=S1)
 	
-	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-05, decay=0.0)
+	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-06, decay=0.0)
 	gmodel.compile(loss='binary_crossentropy',
 		optimizer=mypotim,
 		metrics=['accuracy'])
-	gmodel.summary()
+	print gmodel.summary()
 	return gmodel
 
 # We choose a high patience so the algorthim keeps searching even after finding a maximum
@@ -159,10 +159,11 @@ TRb1, TRb2, TRname, TRlabel, TRangle, TRonlyAngle = DataSort(train)
 # Grab the training (tr) and testing (te) data and labels
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprepAngle()
 
-xtr = decibel_to_linear(xtr)*0.05
-xte = decibel_to_linear(xte)*0.05
+xtr = decibel_to_linear(xtr)*0.5
+xte = decibel_to_linear(xte)*0.5
 
 print xtr[0,0:5, 0:5,1], np.amin(xtr), np.amax(xtr), np.std(xtr)
+print atr[0:5], ytr[0:5]
 # Add back the angle info as the third chanel
 #xtr = iceDataPrep.addAngles(xtr, atr)
 #xte = iceDataPrep.addAngles(xte, ate)
