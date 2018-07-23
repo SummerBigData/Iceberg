@@ -1,5 +1,5 @@
 #PBS -N run2iunsup7-20_incl$PBS_ARRAYID
-#PBS -l walltime=02:30:00
+#PBS -l walltime=03:30:00
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16GB
 #PBS -j oe

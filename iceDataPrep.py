@@ -544,6 +544,37 @@ def unNormColors(mat, oldMinMax):
 
 
 
+def augmentFlip(xtr, ytr):
+	import cv2 #as cv
+	# Prepare the arrays that will hold the images
+	vertFlips = np.zeros(xtr.shape)
+	horiFlips = np.zeros(xtr.shape)
+
+	for i in range(xtr.shape[0]):
+		# Seperate the colors and flip independently
+		a = xtr[i, :, :, 0]
+		b = xtr[i, :, :, 1]
+		c = xtr[i, :, :, 2]
+
+		av = cv2.flip(a,1)
+		ah = cv2.flip(a,0)
+		bv = cv2.flip(b,1)
+		bh = cv2.flip(b,0)
+		cv = cv2.flip(c,1)
+		ch = cv2.flip(c,0)
+		
+		vertFlips[i] = np.dstack((av, bv, cv))
+		horiFlips[i] = np.dstack((ah, bh, ch))
+	
+	xtraug = np.concatenate((xtr, vertFlips, horiFlips), axis=0)	#(2000, 75, 75, 3)
+	# Prepare the y values too
+	ytraug = np.concatenate( (ytr, ytr, ytr), axis=0)
+	# Shuffle the data
+	xtraug, ytraug = shuffleData(xtraug, ytraug)
+	return xtraug, ytraug 
+
+
+
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 

@@ -161,7 +161,7 @@ if g.h != 0:
 
 # Trim and translate the training set and center trim the test set. quadruples dataset size
 if g.flip != 0:
-	xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
+	xtr, ytr = augmentFlip(xtr, ytr)
 
 
 '''
