@@ -1,5 +1,5 @@
-#PBS -N runiunsup2h0fl0iters5_7-23
-#PBS -l walltime=03:30:00
+#PBS -N runiunsup2h0fl0iters20_7-23
+#PBS -l walltime=04:30:00
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=16GB
 #PBS -j oe
@@ -20,5 +20,5 @@ source activate local
 # This is the command the runs the python script
 
 #python -u icecnn.py $PBS_ARRAYID >& outIceCnn7-2_$PBS_ARRAYID.log
-# h, flip, iters
-python -u iceunsup2.py 0 0 5 >& outiunsup2h0fl0iters5_7-23.log
+# h, flip, iters, pseusize
+python -u iceunsup2.py 0 0 20 0 >& outiunsup2h0fl0iters20_7-23.log

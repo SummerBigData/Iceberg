@@ -131,7 +131,7 @@ def main(xtr, ytr, xte, yte, unlab, h, flip, ind):
 
 	# Denoise the images as an augmentation to the dataset. doubles dataset size
 	if h != 0:
-		xtr, ytr = iceDataPrep.augmentDenoise(xtr, ytr, g.h)
+		xtr, ytr = iceDataPrep.augmentDenoise(xtr, ytr, h)
 
 	# Trim and translate the training set and center trim the test set. quadruples dataset size
 	if flip != 0:

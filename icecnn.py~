@@ -225,11 +225,11 @@ model.fit(xtr, ytr,
 model.load_weights(file_path)
 
 print 'Accuracy on training data:'
-scores = model.evaluate(xtr, ytr)
+scores = model.evaluate(xtr, ytr, verbose=0)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 print 'Accuracy on testing data:'
-scores = model.evaluate(xte, yte)
+scores = model.evaluate(xte, yte, verbose=0)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 

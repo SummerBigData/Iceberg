@@ -196,7 +196,7 @@ else:
 
 
 file_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
-callbacks = get_callbacks(filepath=file_path, patience=8)
+callbacks = get_callbacks(filepath=file_path, patience=12)
 
 #plot_model(model, to_file = 'results/modelIceCnn.png', show_shapes = True)
 

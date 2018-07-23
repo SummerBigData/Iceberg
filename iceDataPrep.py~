@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 #import matplotlib.pyplot as plt
 
-
+np.random.seed(7)
 
 
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
@@ -557,15 +557,15 @@ def augmentFlip(xtr, ytr):
 		b = xtr[i, :, :, 1]
 		c = xtr[i, :, :, 2]
 
-		av = cv2.flip(a,1)
+		#av = cv2.flip(a,1)
 		ah = cv2.flip(a,0)
-		ahv = cv2.flip(ah, 1)
-		bv = cv2.flip(b,1)
+		#ahv = cv2.flip(ah, 1)
+		#bv = cv2.flip(b,1)
 		bh = cv2.flip(b,0)
-		bhv = cv2.flip(bh, 1)
-		cv = cv2.flip(c,1)
+		#bhv = cv2.flip(bh, 1)
+		#cv = cv2.flip(c,1)
 		ch = cv2.flip(c,0)
-		chv = cv2.flip(ch, 1)		
+		#chv = cv2.flip(ch, 1)		
 
 		vertFlips[i] = np.dstack((av, bv, cv))
 		horiFlips[i] = np.dstack((ah, bh, ch))
