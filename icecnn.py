@@ -11,6 +11,7 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activati
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
+from keras.utils import plot_model
 import os.path # To check if a file exists
 import iceDataPrep
 
@@ -29,7 +30,7 @@ np.random.seed(7)
 parser = argparse.ArgumentParser()
 #parser.add_argument("m", help="Number of Datapoints, up to 1604", type=int)
 parser.add_argument("h", help="denoising variable for all colors", type=int)
-parser.add_argument("flip", help="Augmennd data using flips? 0 for no, 1 for yes", type=int)
+parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
 g = parser.parse_args()
 g.m = 1604
 g.f1 = 75 * 75 * 2
@@ -196,6 +197,8 @@ else:
 
 file_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 callbacks = get_callbacks(filepath=file_path, patience=8)
+
+#plot_model(model, to_file = 'results/modelIceCnn.png', show_shapes = True)
 
 # Fit the model
 #model.fit(x, y, epochs=g.epo, batch_size=g.bsize)

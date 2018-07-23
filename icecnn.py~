@@ -11,6 +11,7 @@ from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activati
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
+from keras.utils import plot_model
 import os.path # To check if a file exists
 import iceDataPrep
 
@@ -161,7 +162,7 @@ if g.h != 0:
 
 # Trim and translate the training set and center trim the test set. quadruples dataset size
 if g.flip != 0:
-	xtr, ytr = augmentFlip(xtr, ytr)
+	xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 
 '''
@@ -196,6 +197,8 @@ else:
 
 file_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 callbacks = get_callbacks(filepath=file_path, patience=8)
+
+#plot_model(model, to_file = 'results/modelIceCnn.png', show_shapes = True)
 
 # Fit the model
 #model.fit(x, y, epochs=g.epo, batch_size=g.bsize)

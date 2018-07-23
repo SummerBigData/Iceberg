@@ -12,7 +12,6 @@ from keras.layers import concatenate
 from keras.optimizers import Adam
 #from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
-from keras.utils import plot_model
 import os.path # To check if a file exists
 import iceDataPrep
 
@@ -221,9 +220,6 @@ callbacks = get_callbacks(filepath=file_path, patience=8)
 
 # Fit the model
 #model.fit(x, y, epochs=g.epo, batch_size=g.bsize)
-
-#plot_model(model, to_file = 'results/modelIceAngCnn.png', show_shapes = True)
-
 '''
 datagen.fit(x)
 model.fit_generator(datagen.flow(xtr, ytr, batch_size=g.bsize),

@@ -8,7 +8,9 @@ Using TensorFlow backend.
 You have chosen: Namespace(bsize=100, epo=70, f1=11250, f2=50, f3=100, f4=1, h=10, imgsize=75, m=1604, pseuSize=8000, trimsize=0)
  
 x and y (9203, 75, 75, 3) (9203,)
-2018-07-23 10:31:03.668235: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-23 10:31:03.668267: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-23 12:31:44.656858: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-23 12:31:44.656894: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
 Train on 9203 samples, validate on 401 samples
 Epoch 1/70
+605s - loss: 0.2039 - acc: 0.9188 - val_loss: 0.1882 - val_acc: 0.9327
+Epoch 2/70

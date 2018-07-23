@@ -549,6 +549,7 @@ def augmentFlip(xtr, ytr):
 	# Prepare the arrays that will hold the images
 	vertFlips = np.zeros(xtr.shape)
 	horiFlips = np.zeros(xtr.shape)
+	handvFlips = np.zeros(xtr.shape)
 
 	for i in range(xtr.shape[0]):
 		# Seperate the colors and flip independently
@@ -558,17 +559,21 @@ def augmentFlip(xtr, ytr):
 
 		av = cv2.flip(a,1)
 		ah = cv2.flip(a,0)
+		ahv = cv2.flip(ah, 1)
 		bv = cv2.flip(b,1)
 		bh = cv2.flip(b,0)
+		bhv = cv2.flip(bh, 1)
 		cv = cv2.flip(c,1)
 		ch = cv2.flip(c,0)
-		
+		chv = cv2.flip(ch, 1)		
+
 		vertFlips[i] = np.dstack((av, bv, cv))
 		horiFlips[i] = np.dstack((ah, bh, ch))
-	
-	xtraug = np.concatenate((xtr, vertFlips, horiFlips), axis=0)	#(2000, 75, 75, 3)
+		handvFlips[i] = np.dstack((ahv, bhv, chv))	
+
+	xtraug = np.concatenate((xtr, vertFlips, horiFlips, handvFlips), axis=0)
 	# Prepare the y values too
-	ytraug = np.concatenate( (ytr, ytr, ytr), axis=0)
+	ytraug = np.concatenate( (ytr, ytr, ytr, ytr), axis=0)
 	# Shuffle the data
 	xtraug, ytraug = shuffleData(xtraug, ytraug)
 	return xtraug, ytraug 

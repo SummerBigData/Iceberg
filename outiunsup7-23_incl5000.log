@@ -8,9 +8,17 @@ Using TensorFlow backend.
 You have chosen: Namespace(bsize=100, epo=70, f1=11250, f2=50, f3=100, f4=1, h=10, imgsize=75, m=1604, pseuSize=5000, trimsize=0)
  
 x and y (6203, 75, 75, 3) (6203,)
-2018-07-23 10:31:00.003371: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-23 10:31:00.003405: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-23 11:49:21.895808: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-23 11:49:21.895841: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
 Train on 6203 samples, validate on 401 samples
 Epoch 1/70
-394s - loss: 0.2724 - acc: 0.1906 - val_loss: 0.1522 - val_acc: 0.9426
+395s - loss: 0.2038 - acc: 0.9163 - val_loss: 0.2106 - val_acc: 0.9052
 Epoch 2/70
+395s - loss: 0.3299 - acc: 0.9023 - val_loss: 0.2980 - val_acc: 0.8404
+Epoch 3/70
+395s - loss: 0.6075 - acc: 0.8407 - val_loss: 0.2610 - val_acc: 0.8404
+Epoch 4/70
+395s - loss: 0.4005 - acc: 0.8528 - val_loss: 0.2914 - val_acc: 0.8479
+Epoch 5/70
+395s - loss: 0.6744 - acc: 0.8554 - val_loss: 0.3682 - val_acc: 0.8429
+Epoch 6/70

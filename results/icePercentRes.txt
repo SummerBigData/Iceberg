@@ -278,12 +278,29 @@ tr = 83.79%, te = 81.55%
 }
 
 Redesigned dataprep function:
-{
+
 dn = 0
 tr = 96.34%, te = 95.01% 
 
 dn = 10
 tr = 94.93%, te = 96.01%
+
+pseudodata augmentation
+{
+incl = 500
+tr = 94.72%, te = 93.52%
+
+incl = 1000
+tr = 97.37%, te = 93.27%
+
+
+
+Flipping augmentation:
+{
+dn = 0
+tr = 95.29%, te = 94.01%
+
+
 
 
 

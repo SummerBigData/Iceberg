@@ -1,0 +1,48 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+ 
+2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+ 
+You have chosen: Namespace(bsize=100, epo=70, f1=11250, f2=50, f3=100, f4=1, flip=1, h=14, imgsize=75, m=1604)
+ 
+Denoising the images
+done denoising
+x and y (7218, 75, 75, 3) (7218,)
+2018-07-23 10:42:03.019315: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-23 10:42:03.020156: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Train on 7218 samples, validate on 401 samples
+Epoch 1/70
+459s - loss: 0.3729 - acc: 0.8275 - val_loss: 0.2472 - val_acc: 0.8803
+Epoch 2/70
+458s - loss: 0.2825 - acc: 0.8788 - val_loss: 0.2327 - val_acc: 0.9227
+Epoch 3/70
+458s - loss: 0.2547 - acc: 0.8894 - val_loss: 0.1831 - val_acc: 0.9352
+Epoch 4/70
+458s - loss: 0.2396 - acc: 0.8980 - val_loss: 0.2645 - val_acc: 0.8828
+Epoch 5/70
+458s - loss: 0.2318 - acc: 0.9043 - val_loss: 0.1721 - val_acc: 0.9302
+Epoch 6/70
+458s - loss: 0.2284 - acc: 0.9004 - val_loss: 0.2173 - val_acc: 0.9027
+Epoch 7/70
+458s - loss: 0.2128 - acc: 0.9083 - val_loss: 0.1756 - val_acc: 0.9352
+Epoch 8/70
+458s - loss: 0.2064 - acc: 0.9134 - val_loss: 0.1808 - val_acc: 0.9426
+Epoch 9/70
+458s - loss: 0.1878 - acc: 0.9169 - val_loss: 0.1901 - val_acc: 0.9377
+Epoch 10/70
+458s - loss: 0.1864 - acc: 0.9199 - val_loss: 0.2029 - val_acc: 0.9327
+Epoch 11/70
+458s - loss: 0.1994 - acc: 0.9180 - val_loss: 0.1879 - val_acc: 0.9352
+Epoch 12/70
+458s - loss: 0.1736 - acc: 0.9259 - val_loss: 0.1874 - val_acc: 0.9327
+Epoch 13/70
+458s - loss: 0.1774 - acc: 0.9228 - val_loss: 0.1959 - val_acc: 0.9052
+Epoch 14/70
+458s - loss: 0.1642 - acc: 0.9299 - val_loss: 0.2051 - val_acc: 0.9277
+Epoch 15/70
+458s - loss: 0.1663 - acc: 0.9299 - val_loss: 0.1937 - val_acc: 0.9227
+Epoch 16/70
+458s - loss: 0.1710 - acc: 0.9257 - val_loss: 0.1957 - val_acc: 0.9352
+Epoch 17/70

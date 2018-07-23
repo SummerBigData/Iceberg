@@ -13,6 +13,7 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
 from keras.losses import mse, binary_crossentropy
 from keras import backend as K
+from keras.utils import plot_model
 import os.path # To check if a file exists
 import iceDataPrep
 
@@ -151,7 +152,7 @@ z = Lambda(sampling, output_shape=(g.f3,), name='z')([z_mean, z_log_var])
 
 # instantiate encoder model
 encoder = Model(inputs, [z_mean, z_log_var, z], name='encoder')
-encoder.summary()
+#encoder.summary()
 
 
 
@@ -164,7 +165,7 @@ outputs = Dense(g.f1, activation='sigmoid')(d3)
 
 # instantiate decoder model
 decoder = Model(latent_inputs, outputs, name='decoder')
-decoder.summary()
+#decoder.summary()
 
 # Build VAE
 # instantiate VAE model
@@ -180,7 +181,7 @@ print 'print 2', reconstruction_loss.shape, kl_loss.shape
 vae.add_loss(vae_loss)
 vae.compile(optimizer='adam', loss=None)
 #vae.summary()
-
+plot_model(vae, to_file = 'results/modelVae.png', show_shapes = True)
 
 
 file_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'

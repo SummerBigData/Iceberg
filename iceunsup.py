@@ -41,7 +41,7 @@ g.imgsize = 75 - g.trimsize
 g.epo = 70#300
 g.bsize = 100
 #saveStr = 'icem'+str(g.m)+'epo'+str(g.epo)+'bsize'+str(g.bsize)+'trimsize'+str(g.trimsize)
-saveStr = 'iceIter1Epo'+str(g.epo)+'Bsize'+str(g.bsize)+'h'+str(g.h)+'Trimsize'+str(g.trimsize)
+saveStr = 'iceIter1Epo'+str(g.epo)+'Bsize'+str(g.bsize)+'h'+str(g.h)+'Trimsize'+str(g.trimsize) + 'psize' + str(g.pseuSize)
 print 'You have chosen:', g
 print ' '
 
@@ -93,7 +93,7 @@ xbavg = (xb1 + xb2) / 2.0
 xtrpseudo = np.concatenate((xb1, xb2, xbavg ), axis=3)
 
 # Grab the pseudolabels
-ytrpseudo = np.genfromtxt('icePredtr'+str(g.trimsize)+'dn'+str(g.h)+'.out',dtype=float,delimiter=',')
+ytrpseudo = np.genfromtxt('iceBinPredtr'+str(g.trimsize)+'dn'+str(g.h)+'.out',dtype=float,delimiter=',')
 
 
 # Now stick together 250 images from the unlabeled data with the labels calculated
