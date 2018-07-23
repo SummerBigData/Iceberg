@@ -14,14 +14,15 @@ np.random.seed(7)
 parser = argparse.ArgumentParser()
 parser.add_argument("h", help="denoising variable for all colors", type=int)
 parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
-parser.add_argument('iters', help='How many times do we run the base cnn', type=int)
+parser.add_argument('iters', help='How many times do we run the base cnn?', type=int)
+parser.add_argument('incl', help='How much pseudolabeled data do we include?', type=int)
 g = parser.parse_args()
 
 print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-
+unsupCsvStr = 'submits/subWAvgingUnsup7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'.csv'
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
 
@@ -70,21 +71,22 @@ unlab, name = grabUnlab()
 
 # Create arrays to store the results
 pred = np.zeros(( g.iters, unlab.shape[0] ))
-trScore = np.zeros(( g.iters ))
-teScore = np.zeros(( g.iters ))
+# We are storing both the percent and logloss for both training and testing runs
+scores = np.zeros(( g.iters, 2, 2 ))
+
 
 # Run the CNN for g.iters times to collect the predictions from many trials
 # The function main automatically loads previous weights if the iteration number, h, and flip are the same
 for i in range(g.iters):
 	print 'Running iter', i+1
 	print ' '
-	pred[i], trScore[i], teScore[i] = iceFCnn.main(xtr, ytr, xte, yte, unlab, g.h, g.flip, i)
-	print 'Training score for iter', i+1, 'is', trScore[i]
-	print 'Testing score for iter', i+1, 'is', teScore[i]
+	pred[i], scores[i] = iceFCnn.main(xtr, ytr, xte, yte, unlab, g.h, g.flip, i)
+	print 'Training percent for iter', i+1, 'is', score[i, 0, 1]*100, 'with log loss', score[i, 0, 0]
+	print 'Testing percent for iter', i+1, 'is', score[i, 1, 1]*100, 'with log loss', score[i, 1, 0]
 	print ' '
 
 # We use the average prediction, weighted by the test score
-avgPred = WeightedAvg(pred, teScore)
+avgPred = WeightedAvg(pred, 1.0/scores[:, 1, 0])
 
 # Save the prediction
 SavePred(avgPred, name)

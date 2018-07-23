@@ -297,6 +297,10 @@ tr = 95.01%, te = 94.51%
 incl = 4000
 tr = 96.46%, te = 91.02%
 
+incl = 8000
+tr = 96.44%, te = 91.77%
+}
+
 Flipping augmentation:
 {
 dn = 0
@@ -328,6 +332,10 @@ tr = 92.03%, te = 93.77
 
 dn = 18
 tr = 93.07%, te = 94.76
+
+dn = 20
+tr = 91.55%, te = 94.01
+}
 
 Terminal version:
 2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 

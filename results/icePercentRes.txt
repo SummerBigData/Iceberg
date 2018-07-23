@@ -297,6 +297,10 @@ tr = 95.01%, te = 94.51%
 incl = 4000
 tr = 96.46%, te = 91.02%
 
+incl = 8000
+tr = 96.44%, te = 91.77%
+}
+
 Flipping augmentation:
 {
 dn = 0

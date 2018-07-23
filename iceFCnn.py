@@ -163,15 +163,20 @@ def main(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# evaluate the model
 	model.load_weights(saveStr)
 
-	# Calculate the scores on the training and testng data
+	# Calculate the scores on the training and testing data
+	results = np.zeros((2, 2))
+	# Training
 	scores = model.evaluate(xtr, ytr, verbose=0)
-	trainScore = scores[1]
+	results[0, 0] = scores[0]
+	results[0, 1] = scores[1]
+	# Testing
 	scores = model.evaluate(xte, yte, verbose=0)
-	testScore = scores[1]
+	results[1, 0] = scores[0]
+	results[1, 1] = scores[1]
 
 	prediction = model.predict(unlab)
 
-	return prediction.flatten(), trainScore.flatten(), testScore.flatten()
+	return prediction.flatten(), results
 #model.save('models/iceModel' + str(g.imgsize) )
 #model.save_weights('weights/' + saveStr)
 
