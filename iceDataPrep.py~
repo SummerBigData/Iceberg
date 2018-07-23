@@ -571,7 +571,7 @@ def augmentFlip(xtr, ytr):
 		horiFlips[i] = np.dstack((ah, bh, ch))
 		handvFlips[i] = np.dstack((ahv, bhv, chv))	
 
-	xtraug = np.concatenate((xtr, vertFlips, horiFlips, handvFlips), axis=0)	#(2000, 75, 75, 3)
+	xtraug = np.concatenate((xtr, vertFlips, horiFlips, handvFlips), axis=0)
 	# Prepare the y values too
 	ytraug = np.concatenate( (ytr, ytr, ytr, ytr), axis=0)
 	# Shuffle the data

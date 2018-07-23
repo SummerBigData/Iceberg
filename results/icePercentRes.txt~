@@ -290,16 +290,44 @@ pseudodata augmentation
 incl = 500
 tr = 94.72%, te = 93.52%
 
+incl = 1000
+tr = 97.37%, te = 93.27%
+tr = 95.01%, te = 94.51%
 
+incl = 4000
+tr = 96.46%, te = 91.02%
 
 Flipping augmentation:
 {
 dn = 0
 tr = 95.29%, te = 94.01%
 
+dn = 2
+tr = 94.56%, te = 94.76%
 
+dn = 4
+tr = 92.70%, te = 94.76%
 
+dn = 6
+tr = 
 
+dn = 8
+tr = 93.35%, te = 94.76%
+
+dn = 10
+tr = 94.49%, te = 94.26
+
+dn = 12
+tr = 
+
+dn = 14
+tr = 94.53%, te = 94.26
+
+dn = 16
+tr = 92.03%, te = 93.77
+
+dn = 18
+tr = 93.07%, te = 94.76
 
 Terminal version:
 2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 

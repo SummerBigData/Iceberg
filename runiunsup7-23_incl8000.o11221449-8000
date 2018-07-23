@@ -1,0 +1,18 @@
+/users/PAS1383/osu10171/iceberg
+discarding /usr/local/anaconda/anaconda2/bin from PATH
+prepending /users/PAS1383/osu10171/.conda/envs/local/bin to PATH
+
+-----------------------
+Resources requested:
+nodes=1:ppn=1
+mem=16gb
+-----------------------
+Resources used:
+cput=03:24:29
+walltime=03:24:36
+mem=8.894 GB
+vmem=9.708 GB
+-----------------------
+Resource units charged (estimate):
+1.364 RUs
+-----------------------
