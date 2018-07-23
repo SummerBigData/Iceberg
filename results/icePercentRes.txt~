@@ -272,6 +272,16 @@ Adding angles intelligently
 
 {
 tr = 85.12%, te = 81.80%
+}
+
+Redesigned dataprep function:
+{
+dn = 0
+tr = 96.34%, te = 95.01% 
+
+dn = 10
+tr = 94.93%, te = 96.01%
+
 
 
 Terminal version:

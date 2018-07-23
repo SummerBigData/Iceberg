@@ -171,8 +171,8 @@ print prediction[0:30]
 print prediction.dtype
 print prediction.shape
 '''
-np.savetxt('icePredtr0dn10.out', prediction, delimiter=',')
-np.savetxt('iceBinPredtr0dn10.out', binaryPred, delimiter=',')
+np.savetxt('icePredtr'+str(g.trimsize)+'dn'+str(g.h)+'.out', prediction, delimiter=',')
+np.savetxt('iceBinPredtr'+str(g.trimsize)+'dn'+str(g.h)+'.out', binaryPred, delimiter=',')
 #print accuracy
 
 

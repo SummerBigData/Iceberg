@@ -199,7 +199,7 @@ reconstruction_loss = mse(Flatten()(inputs) , Flatten()(outputs))
 kl_loss = 1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)
 kl_loss = K.sum(kl_loss, axis=-1)
 kl_loss *= -0.5
-vae_loss = K.mean(reconstruction_loss + kl_loss)* g.f2
+vae_loss = K.mean(reconstruction_loss + kl_loss)
 print 'print 2', reconstruction_loss.shape, kl_loss.shape
 vae.add_loss(vae_loss)
 vae.compile(optimizer='adam', loss=None)

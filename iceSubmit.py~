@@ -115,7 +115,7 @@ xte = np.concatenate((xb1, xb2, xbavg ), axis=3)
 
 # Load the model and weights and make the predictions
 model = load_model('models/iceModel'+str(75 - g.trimsize) )
-model.load_weights('weights/'+ weightStr + '.hdf5')
+model.load_weights('weights/'+weightStr + '.hdf5')
 
 prediction = model.predict(xte)
 binaryPred = binaryprediction(model, xte)
@@ -123,7 +123,7 @@ binaryPred = binaryprediction(model, xte)
 submission = pd.DataFrame()
 submission['id']= name
 submission['is_iceberg']= prediction.reshape((prediction.shape[0]))
-submission.to_csv('submits/sub7-23dn'+str(g.h)+'tr'+str(g.trimsize)+'.csv', index=False)
+submission.to_csv('submits/sub7-16dn'+str(g.h)+'tr'+str(g.trimsize)+'.csv', index=False)
 
 
 
