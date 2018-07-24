@@ -337,6 +337,26 @@ dn = 20
 tr = 91.55%, te = 94.01
 }
 
+Flipping horizontal only
+{
+dn = 0
+tr = 94.26%, te = 94.26%
+
+dn = 5
+tr = 96.49%, te = 94.51%
+
+dn = 10
+tr = 96.18%, te = 94.26%
+
+dn = 15
+tr = 
+
+}
+
+
+
+
+
 Terminal version:
 2.7.13 |Anaconda 2.1.0 (64-bit)| (default, Dec 20 2016, 23:09:15) 
 [GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]

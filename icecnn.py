@@ -160,7 +160,7 @@ xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 if g.h != 0:
 	xtr, ytr = iceDataPrep.augmentDenoise(xtr, ytr, g.h)
 
-# Trim and translate the training set and center trim the test set. quadruples dataset size
+# Trim and translate the training set and center trim the test set. doubles dataset size
 if g.flip != 0:
 	xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
@@ -193,10 +193,11 @@ if os.path.exists('models/iceModel' + str(g.imgsize) ):
 	model = load_model('models/iceModel' + str(g.imgsize) )
 else:
 	model = getModel()
+	model.save('models/iceModel' + str(g.imgsize) )
 
 
 file_path = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
-callbacks = get_callbacks(filepath=file_path, patience=12)
+callbacks = get_callbacks(filepath=file_path, patience=20)
 
 #plot_model(model, to_file = 'results/modelIceCnn.png', show_shapes = True)
 
@@ -233,7 +234,7 @@ scores = model.evaluate(xte, yte, verbose=0)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
 
 
-model.save('models/iceModel' + str(g.imgsize) )
+#model.save('models/iceModel' + str(g.imgsize) )
 #model.save_weights('weights/' + saveStr)
 
 

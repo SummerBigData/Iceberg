@@ -13,3 +13,11 @@ Epoch 1/25
 2018-07-23 09:46:09.536027: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
 19523s - loss: 3368.6823 - val_loss: 0.0033
 Epoch 2/25
+19514s - loss: 0.0034 - val_loss: 0.0030
+Epoch 3/25
+19518s - loss: 0.0033 - val_loss: 0.0029
+Epoch 4/25
+19524s - loss: 0.0032 - val_loss: 0.0029
+Epoch 5/25
+19508s - loss: 0.0032 - val_loss: 0.0031
+Epoch 6/25

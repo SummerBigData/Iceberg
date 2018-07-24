@@ -1,5 +1,5 @@
 # import helping code
-import iceFCnn
+import iceF
 import iceDataPrep
 
 # Other imports
@@ -12,16 +12,17 @@ np.random.seed(7)
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
 
 parser = argparse.ArgumentParser()
-parser.add_argument("h", help="denoising variable for all colors", type=int)
+#parser.add_argument("h", help="denoising variable for all colors", type=int)
 parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
-parser.add_argument('iters', help='How many times do we run the base cnn', type=int)
+#parser.add_argument('iters', help='How many times do we run the base cnn?', type=int)
+#parser.add_argument('incl', help='How much pseudolabeled data do we include?', type=int)
 g = parser.parse_args()
 
 print 'You have chosen:', g
 print ' '
 
-csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-
+#csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+#unsupCsvStr = 'submits/subWAvgingUnsup7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'.csv'
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
 
@@ -59,6 +60,33 @@ def SavePred(pred, name):
 	submission['is_iceberg']= pred.reshape((pred.shape[0]))
 	submission.to_csv(csvStr, index=False)
 
+def runCnns(xtr, ytr, xte, yte, unlab):
+	# Create arrays to store the results
+	pred = np.zeros(( g.iters, unlab.shape[0] ))
+	# We are storing both the percent and logloss for both training and testing runs
+	scores = np.zeros(( g.iters, 2, 2 ))
+
+	# Run the CNN for g.iters times to collect the predictions from many trials
+	# The function main automatically loads previous weights if the iteration number, h, and flip are the same
+	for i in range(g.iters):
+		print 'Running iter', i+1
+		print ' '
+		pred[i], scores[i] = iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, i)
+		print 'Training percent for iter', i+1, 'is', scores[i, 0, 1]*100, 'with log loss', scores[i, 0, 0]
+		print 'Testing percent for iter', i+1, 'is', scores[i, 1, 1]*100, 'with log loss', scores[i, 1, 0]
+		print ' '
+
+	# We use the average prediction, weighted by the test score
+	avgPred = WeightedAvg(pred, 1.0/scores[:, 1, 0])
+	return avgPred
+
+def runAE(xtr, ytr, xte, yte, unlab, flip):
+
+	pred = np.zeros(unlab.shape)
+	scores = np.zeros(( 2, 2 ))
+	
+	pred, scores = iceF.autoencoder(xtr, ytr, xte, yte, unlab, flip)
+	print score
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 
 
@@ -68,27 +96,10 @@ def SavePred(pred, name):
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 
-# Create arrays to store the results
-pred = np.zeros(( g.iters, unlab.shape[0] ))
-# We are storing both the percent and logloss for both training and testing runs
-scores = np.zeros(( g.iters, 2, 2 ))
-
-
-# Run the CNN for g.iters times to collect the predictions from many trials
-# The function main automatically loads previous weights if the iteration number, h, and flip are the same
-for i in range(g.iters):
-	print 'Running iter', i+1
-	print ' '
-	pred[i], scores[i] = iceFCnn.main(xtr, ytr, xte, yte, unlab, g.h, g.flip, i)
-	print 'Training percent for iter', i+1, 'is', score[i, 0, 1]*100, 'with log loss', score[i, 0, 0]
-	print 'Testing percent for iter', i+1, 'is', score[i, 1, 1]*100, 'with log loss', score[i, 1, 0]
-	print ' '
-
-# We use the average prediction, weighted by the test score
-avgPred = WeightedAvg(pred, 1.0/scores[:, 1, 0])
-
+runAE(xtr, ytr, xte, yte, unlab)
+	
 # Save the prediction
-SavePred(avgPred, name)
+#SavePred(avgPred, name)
 
 
 
