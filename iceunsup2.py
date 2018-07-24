@@ -81,12 +81,11 @@ def runCnns(xtr, ytr, xte, yte, unlab):
 	return avgPred
 
 def runAE(xtr, ytr, xte, yte, unlab, flip):
-
-	pred = np.zeros(unlab.shape)
-	scores = np.zeros(( 2, 2 ))
 	
-	pred, scores = iceF.autoencoder(xtr, ytr, xte, yte, unlab, flip)
+	xtrPred, unlabPred, scores = iceF.autoencoder(xtr, ytr, xte, yte, unlab, flip)
+
 	print score
+	return xtrPred, unlabPred
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 
 
@@ -96,7 +95,7 @@ def runAE(xtr, ytr, xte, yte, unlab, flip):
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 
-runAE(xtr, ytr, xte, yte, unlab, g.flip)
+xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
 	
 # Save the prediction
 #SavePred(avgPred, name)

@@ -276,6 +276,9 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 	saveStr = 'iceunsup2/AEepo'+str(epo)+'Bsize'+str(bsize)+'flip'+str(flip)
 	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 
+	# We train on both xtr and on the unlabelled images
+	xtr = np.concatenate((xtr, unlab), axis=0)
+	
 	# Trim and translate the training set and center trim the test set. quadruples dataset size
 	if flip != 0:
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
@@ -329,17 +332,18 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 	# Calculate the scores on the training and testing data
 	results = np.zeros((2, 2))
 	# Training
-	scores = autoencoder.evaluate(xtr, ytr, verbose=0)
+	scores = autoencoder.evaluate(xtr, xtr, verbose=0)
 	results[0, 0] = scores[0]
 	results[0, 1] = scores[1]
 	# Testing
-	scores = autoencoder.evaluate(xte, yte, verbose=0)
+	scores = autoencoder.evaluate(xte, xte, verbose=0)
 	results[1, 0] = scores[0]
 	results[1, 1] = scores[1]
 
-	prediction = autoencoder.predict(unlab)
+	xtrPred = encoder.predict(xtr)
+	unlabPred = encoder.predict(unlab)
 
-	return prediction, results
+	return xtrPred, unlabPred, results
 
 
 

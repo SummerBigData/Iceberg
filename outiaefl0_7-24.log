@@ -3,7 +3,15 @@ Using TensorFlow backend.
   from ._conv import register_converters as _register_converters
 You have chosen: Namespace(flip=0)
  
-2018-07-24 15:37:48.642681: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-24 15:37:48.643593: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
-Train on 1203 samples, validate on 401 samples
+2018-07-24 15:58:06.621479: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-24 15:58:06.621720: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Train on 9627 samples, validate on 401 samples
 Epoch 1/70
+1081s - loss: 584.4391 - acc: 0.1262 - val_loss: 569.4189 - val_acc: 0.0034
+Epoch 2/70
+1079s - loss: 579.8418 - acc: 0.0725 - val_loss: 569.3249 - val_acc: 0.0035
+Epoch 3/70
+1080s - loss: 579.7770 - acc: 0.0447 - val_loss: 569.3059 - val_acc: 0.0032
+Epoch 4/70
+1079s - loss: 579.7537 - acc: 0.0394 - val_loss: 569.3032 - val_acc: 0.0197
+Epoch 5/70
