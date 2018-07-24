@@ -156,7 +156,7 @@ def getAE():
 	
 	x = Dropout(0.2)(x)
 	x = Conv2D(5, (3, 3), activation='relu', padding='same')(x)
-	decoded = Conv2D(3, (2, 2), activation='sigmoid', padding='same')(x)
+	decoded = Conv2D(3, (2, 2), activation='linear', padding='same')(x)
 	
 	#print(x._keras_shape)
 	# Define encoder and autoencoder models
