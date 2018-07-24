@@ -122,34 +122,43 @@ def getAE():
 	d4 = Dropout(0.2)(dc1)
 	dc2 = Conv2DTranspose(3, kernel_size=(2, 2), activation='relu', padding='same')(d4)
 	'''
+	# Encode
 	inputs = Input(shape=(75, 75, 3))  # adapt this if using `channels_first` image data format
 
-	x = Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
-	x = MaxPooling2D((2, 2), padding='same')(x)
-	x = Conv2D(16, (3, 3), activation='relu', padding='same')(x)
-	x = MaxPooling2D((2, 2), padding='same')(x)
-	x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
-	clayers = MaxPooling2D((2, 2), padding='same')(x)
-	# at this point the representation is (4, 4, 8) i.e. 128-dimensional
+	x = Conv2D(5, (3, 3), activation='relu', padding='same')(inputs)
+	x = Dropout(0.2)(x)
+
+	x = Conv2D(15, (3, 3), activation='relu', padding='same')(x)
+	x = MaxPooling2D((3, 3), padding='same')(x)
+	x = Dropout(0.2)(x)
+
+	x = Conv2D(75, (3, 3), activation='relu', padding='same')(x)
+	x = MaxPooling2D((5, 5), padding='same')(x)
+	clayers = Dropout(0.2)(x)
+
 	x = Flatten()(clayers)
-	x = Dense(128, activation='relu')(clayers)
-	x = Dense(128, activation='relu')(x)
-	encoded = Dense(64, activation='relu',activity_regularizer=regularizers.l1(10e-5))(x)
+	x = Dense(125, activation='relu')(x)
+	x = Dense(125, activation='relu')(x)
+	encoded = Dense(75, activation='relu',activity_regularizer=regularizers.l1(10e-5))(x)
 
-	x = Dense(128, activation='relu')(encoded)
-	x = Dense(128, activation='relu')(x)
-	x = Reshape((4, 4, 8))(x)
-
-	x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
-	x = UpSampling2D((2, 2))(x)
-	x = Conv2D(16, (3, 3), activation='relu', padding='same')(x)
-	x = UpSampling2D((2, 2))(x)
-	x = Conv2D(32, (3, 3), activation='relu')(x)
-	x = UpSampling2D((2, 2))(x)
-
-	decoded = Conv2D(3, (3, 3), activation='sigmoid', padding='same')(x)
-
-
+	# Decode
+	x = Dense(125, activation='relu')(encoded)
+	x = Dense(125, activation='relu')(x)
+	x = Reshape((5,5,5))(x)
+	
+	x = Dropout(0.2)(x)
+	x = UpSampling2D((5, 5))(x)
+	x = Conv2D(75, (3, 3), activation='relu', padding='same')(x)
+	
+	x = Dropout(0.2)(x)
+	x = UpSampling2D((3, 3))(x)
+	x = Conv2D(15, (3, 3), activation='relu', padding='same')(x)
+	
+	x = Dropout(0.2)(x)
+	x = Conv2D(5, (3, 3), activation='relu', padding='same')(x)
+	decoded = Conv2D(3, (2, 2), activation='sigmoid', padding='same')(x)
+	
+	#print(x._keras_shape)
 	# Define encoder and autoencoder models
 	encoder = Model(inputs, encoded)
 	AE = Model(inputs, decoded)
@@ -164,14 +173,15 @@ def getAE():
 	decoderL6 = AE.layers[-1](decoderL5)
 	decoder = Model(encodedInputs, decoderL6)
 	'''
-	AE.compile(optimizer='adadelta', loss='binary_crossentropy')
+	optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	AE.compile(optimizer=optimizer, loss='mse', metrics=["accuracy"])
 	return AE, encoder
 
 
 # We choose a high patience so the algorthim keeps searching even after finding a maximum
 def get_callbacks(filepath, patience=8):	
-	es = EarlyStopping('val_acc', patience=patience, mode="max")
-	msave = ModelCheckpoint(filepath, monitor='val_acc',save_best_only=True,save_weights_only=True)
+	es = EarlyStopping('val_loss', patience=patience, mode="min")
+	msave = ModelCheckpoint(filepath, monitor='val_loss',save_best_only=True,save_weights_only=True)
 	return [es, msave]
 
 
@@ -230,7 +240,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	else:
 		callbacks = get_callbacks(filepath=saveStr, patience=20)
 		# Fit the model
-		model.fit(xtr, ytr,
+		model.fit(xtr, yte,
 			batch_size=bsize,
 			epochs=epo,
 			verbose=2,
@@ -271,6 +281,7 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
+	'''
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceAE' + str(imgsize) ):
 		autoencoder = load_model('models/iceAE' + str(imgsize) )
@@ -295,6 +306,23 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 			verbose=2,
 			validation_data=(xte, yte),
 			callbacks=callbacks)
+	'''
+
+	autoencoder, encoder = getAE()
+	autoencoder.save('models/iceAE' + str(imgsize) )
+	encoder.save('models/iceEncoder' + str(imgsize) )
+	plot_model(autoencoder, to_file = 'results/modelIceCnn.png', show_shapes = True)
+	plot_model(encoder, to_file = 'results/modelIceCnn.png', show_shapes = True)
+	
+	callbacks = get_callbacks(filepath=saveStr, patience=20)
+	# Fit the model
+	autoencoder.fit(xtr, xtr,
+		batch_size=bsize,
+		epochs=epo,
+		verbose=2,
+		validation_data=(xte, xte),
+		callbacks=callbacks)
+
 
 	# evaluate the model
 	autoencoder.load_weights(saveStr)
