@@ -233,22 +233,22 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
-	if os.path.exists(saveStr):
-		print 'Pulling index', ind, 'from previous runs'
-		model.load_weights(saveStr)
+	#if os.path.exists(saveStr):
+	#	print 'Pulling index', ind, 'from previous runs'
+	#	model.load_weights(saveStr)
 	
-	else:
-		callbacks = get_callbacks(filepath=saveStr, patience=80)
+	#else:
+	callbacks = get_callbacks(filepath=saveStr, patience=80)
 		# Fit the model
-		model.fit(xtr, ytr,
-			batch_size=bsize,
-			epochs=epo,
-			verbose=2,
-			validation_data=(xte, yte),
-			callbacks=callbacks)
+	model.fit(xtr, ytr,
+		batch_size=bsize,
+		epochs=epo,
+		verbose=2,
+		validation_data=(xte, yte),
+		callbacks=callbacks)
 
 	# evaluate the model
-	model.load_weights(saveStr)
+	#model.load_weights(saveStr)
 
 	# Calculate the scores on the training and testing data
 	results = np.zeros((2, 2))

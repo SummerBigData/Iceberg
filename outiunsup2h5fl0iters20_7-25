@@ -225,3 +225,9 @@ Epoch 6/70
 Epoch 7/70
 157s - loss: 0.1274 - acc: 0.9489 - val_loss: 0.1800 - val_acc: 0.9302
 Epoch 8/70
+156s - loss: 0.1037 - acc: 0.9576 - val_loss: 0.2041 - val_acc: 0.9352
+Epoch 9/70
+157s - loss: 0.0765 - acc: 0.9738 - val_loss: 0.2229 - val_acc: 0.9451
+Epoch 10/70
+157s - loss: 0.0670 - acc: 0.9709 - val_loss: 0.2090 - val_acc: 0.9302
+Epoch 11/70

@@ -249,3 +249,13 @@ Epoch 27/70
 Epoch 28/70
 156s - loss: 0.0464 - acc: 0.9850 - val_loss: 0.2876 - val_acc: 0.9127
 Epoch 29/70
+156s - loss: 0.0542 - acc: 0.9776 - val_loss: 0.2723 - val_acc: 0.9377
+Training percent for iter 9 is 99.54280964256027 with log loss 0.024481264001079035
+Testing percent for iter 9 is 94.01496260838022 with log loss 0.15406819958787904
+ 
+Running iter 10
+ 
+Denoising the images
+done denoising
+Train on 2406 samples, validate on 401 samples
+Epoch 1/70
