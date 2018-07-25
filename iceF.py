@@ -267,7 +267,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 
 
 def autoencoder(xtr, ytr, xte, yte, unlab, flip):
-# Use a seed based on the index
+	# Use a seed based on the index
 	np.random.seed(flip)
 
 	epo = 70
@@ -284,7 +284,6 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
-	'''
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceAE' + str(imgsize) ):
 		autoencoder = load_model('models/iceAE' + str(imgsize) )
@@ -295,7 +294,7 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 		autoencoder.save('models/iceAE' + str(imgsize) )
 		encoder.save('models/iceEncoder' + str(imgsize) )
 		#decoder.save('models/iceDecoder' + str(imgsize) )
-		
+	'''	
 	# Get or do the run. No need to run things more than necessary, right?
 	if os.path.exists(saveStr):
 		print 'Pulling index', ind, 'from previous runs'
@@ -310,13 +309,14 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 			validation_data=(xte, yte),
 			callbacks=callbacks)
 	'''
-
+	'''
 	autoencoder, encoder = getAE()
 	autoencoder.save('models/iceAE' + str(imgsize) )
 	encoder.save('models/iceEncoder' + str(imgsize) )
 	plot_model(autoencoder, to_file = 'results/modelAEauto.png', show_shapes = True)
 	plot_model(encoder, to_file = 'results/modelAEencode.png', show_shapes = True)
-	
+	'''
+
 	callbacks = get_callbacks(filepath=saveStr, patience=20)
 	# Fit the model
 	autoencoder.fit(xtr, xtr,
@@ -325,7 +325,6 @@ def autoencoder(xtr, ytr, xte, yte, unlab, flip):
 		verbose=2,
 		validation_data=(xte, xte),
 		callbacks=callbacks)
-
 
 	# evaluate the model
 	autoencoder.load_weights(saveStr)

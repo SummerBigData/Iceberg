@@ -7,3 +7,33 @@ You have chosen: Namespace(flip=0)
 2018-07-24 17:43:20.591161: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
 Train on 9627 samples, validate on 401 samples
 Epoch 1/70
+1077s - loss: 209.1643 - acc: 0.3164 - val_loss: 322.2127 - val_acc: 0.7837
+Epoch 2/70
+1078s - loss: 44.9561 - acc: 0.4096 - val_loss: 267.9241 - val_acc: 0.8167
+Epoch 3/70
+1079s - loss: 34.3796 - acc: 0.4423 - val_loss: 219.5839 - val_acc: 0.8451
+Epoch 4/70
+1081s - loss: 27.9414 - acc: 0.4763 - val_loss: 177.5100 - val_acc: 0.8438
+Epoch 5/70
+1077s - loss: 24.3050 - acc: 0.4944 - val_loss: 154.4861 - val_acc: 0.8507
+Epoch 6/70
+1077s - loss: 22.0742 - acc: 0.5023 - val_loss: 145.2834 - val_acc: 0.8485
+Epoch 7/70
+1073s - loss: 20.1178 - acc: 0.5101 - val_loss: 133.3345 - val_acc: 0.8496
+Epoch 8/70
+1076s - loss: 18.7197 - acc: 0.5144 - val_loss: 130.5528 - val_acc: 0.8594
+Epoch 9/70
+1078s - loss: 17.8999 - acc: 0.5231 - val_loss: 130.8713 - val_acc: 0.8534
+Epoch 10/70
+1077s - loss: 17.2268 - acc: 0.5320 - val_loss: 127.9372 - val_acc: 0.8532
+Epoch 11/70
+1077s - loss: 16.7286 - acc: 0.5385 - val_loss: 125.8452 - val_acc: 0.8545
+Epoch 12/70
+1074s - loss: 16.4543 - acc: 0.5430 - val_loss: 133.2992 - val_acc: 0.8752
+Epoch 13/70
+1076s - loss: 17.0569 - acc: 0.5485 - val_loss: 159.2242 - val_acc: 0.8725
+Epoch 14/70
+1077s - loss: 17.3601 - acc: 0.5505 - val_loss: 164.1320 - val_acc: 0.8691
+Epoch 15/70
+1077s - loss: 18.5260 - acc: 0.5480 - val_loss: 161.6830 - val_acc: 0.8758
+Epoch 16/70

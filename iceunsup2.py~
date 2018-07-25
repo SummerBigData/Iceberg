@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 np.random.seed(7)
 
+
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
 
 parser = argparse.ArgumentParser()
@@ -86,6 +87,61 @@ def runAE(xtr, ytr, xte, yte, unlab, flip):
 
 	print score
 	return xtrPred, unlabPred
+
+def predictAE(xtr):
+	import keras
+	from keras.models import load_model
+	from keras.optimizers import Adam
+
+	epo = 70
+	bsize = 100
+	imgsize = 75
+	saveStr = 'iceunsup2/AEepo'+str(epo)+'Bsize'+str(bsize)+'flip'+str(g.flip)
+	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
+
+	autoencoder = load_model('models/iceAE' + str(imgsize) )
+	encoder = load_model('models/iceEncoder' + str(imgsize) )
+
+	optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	autoencoder.compile(optimizer=optimizer, loss='mse', metrics=["accuracy"])
+	autoencoder.load_weights(saveStr)
+
+	encPred = encoder.predict(xtr)
+	aePred = autoencoder.predict(xtr)
+
+	return encPred, aePred
+
+def ShowSquare(x): 
+	import matplotlib.pyplot as plt
+	import matplotlib.image as mpimg
+
+	hspace = np.zeros((75, 5, 3))
+	vspace = np.zeros((5, 6*75 + 5*7, 3))
+	picAll = vspace
+	for i in range(6):
+		pici = hspace
+		for j in range(6):
+			picj = x[i*6+j, :, :, :]
+			picj, Min, Max = Norm(picj, 0, 1)
+			pici = np.hstack(( pici, picj, hspace))
+
+		picAll = np.vstack((picAll, pici, vspace))
+
+
+	imgplot = plt.imshow(picAll, cmap="binary", interpolation='none') 
+	plt.show()
+
+def Norm(mat, nMin, nMax):
+	# Calculate the old min, max and convert to float values
+	Min = np.amin(mat).astype(float)
+	Max = np.amax(mat).astype(float)
+	nMin = nMin+0.0
+	nMax = nMax+0.0
+	# Calculate the new normalized matrix
+	normMat = ((mat - Min) / (Max - Min)) * (nMax - nMin) + nMin
+	return normMat, Min, Max
+
+
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 
 
@@ -95,8 +151,20 @@ def runAE(xtr, ytr, xte, yte, unlab, flip):
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 
-runAE(xtr, ytr, xte, yte, unlab, g.flip)
-	
+
+xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
+
+'''
+encPred, aePred = predictAE(xtr)
+
+plotimg = np.zeros((36, 75, 75, 3))
+for i in range(18):
+	plotimg[i*2] = xtr[i]
+	plotimg[i*2+1] = aePred[i]
+
+ShowSquare(plotimg)
+'''
+
 # Save the prediction
 #SavePred(avgPred, name)
 
