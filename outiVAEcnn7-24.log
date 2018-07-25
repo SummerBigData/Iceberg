@@ -16,3 +16,5 @@ Epoch 2/25
 Epoch 3/25
 19735s - loss: 54.6312 - val_loss: 49.2326
 Epoch 4/25
+19751s - loss: 53.3845 - val_loss: 49.2750
+Epoch 5/25

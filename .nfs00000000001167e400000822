@@ -47,14 +47,14 @@ def ShowSquare(band1, band2):
 	plt.show()
 
 
-def getCNN(imgsize):
+def getCNN():
 	#Building the model
 	gmodel=Sequential()
 	#Conv Layer 1
-	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu', input_shape=(imgsize, imgsize, 3)))
-	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu', input_shape=(g.imgsize, g.imgsize, 3)))
+	gmodel.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
-	'''
+	
 	#Conv Layer 2
 	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
@@ -69,7 +69,7 @@ def getCNN(imgsize):
 	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
-	'''
+
 	#Flatten the data for upcoming dense layers
 	gmodel.add(Flatten())
 	
@@ -211,8 +211,8 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 
 	epo = 70
 	bsize = 100
-	imgsize = xtr.shape[1]
-	saveStr = 'iceunsup2/icePCAEpo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
+	imgsize = 75
+	saveStr = 'iceunsup2/Epo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
 	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 
 	# Denoise the images as an augmentation to the dataset. doubles dataset size
@@ -226,11 +226,11 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# KERAS NEURAL NETWORK
 
 	# Get or make the model. Need a different model for each trimsize
-	#if os.path.exists('models/iceModel' + str(imgsize) ):
-	#	model = load_model('models/iceModel' + str(imgsize) )
-	#else:
-	model = getCNN(imgsize)
-	model.save('models/iceModel' + str(imgsize) )
+	if os.path.exists('models/iceModel' + str(imgsize) ):
+		model = load_model('models/iceModel' + str(imgsize) )
+	else:
+		model = getCNN()
+		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
 	if os.path.exists(saveStr):
@@ -238,7 +238,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		model.load_weights(saveStr)
 	
 	else:
-		callbacks = get_callbacks(filepath=saveStr, patience=80)
+		callbacks = get_callbacks(filepath=saveStr, patience=20)
 		# Fit the model
 		model.fit(xtr, ytr,
 			batch_size=bsize,

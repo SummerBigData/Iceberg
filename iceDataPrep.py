@@ -237,38 +237,6 @@ def DataSortTest(dat):
 
 	return band1, band2, name, angle
 
-'''
-def dataprepAngle():
-	train = pd.read_json("data/train.json")	# 1604 x 5
-	
-	# Read out the data in the two bands, as 1604 x 75 x 75 arrays
-	TRb1, TRb2, TRname, TRlabel, TRangle, TRonlyAngle = DataSort(train)
-	x1 = TRb1[0:1]
-	x2 = TRb2[0:1]
-	ang = TRangle[0:1]
-
-	for i in range(1604-1):
-		if TRangle[i+1] != 'na':
-			x1 = np.concatenate((x1, np.array([TRb1[i+1]]) ), axis=0)
-			x2 = np.concatenate((x2, np.array([TRb2[i+1]]) ), axis=0)
-			tempang = np.array([TRangle[i+1]])
-			ang = np.concatenate((ang, tempang), axis=0)
-	# DATA PREP
-	xb1 = x1.reshape((x1.shape[0], 75, 75, 1))
-	xb2 = x2.reshape((x1.shape[0], 75, 75, 1))
-	xbavg = (xb1 + xb2) / 2.0
-	#xbavg = np.zeros(xb1.shape)
-	x = np.concatenate((xb1, xb2, xbavg ), axis=3)
-	
-	#ang = FixedNorm(ang, 0, 1)
-	print np.amin(ang), np.amax(ang)
-	
-	xtr = x[:1000,:,:,:]
-	xte = x[1000:,:,:,:]
-	atr = ang[:1000].astype(float)
-	ate = ang[1000:].astype(float)
-	return xtr, atr, xte, ate
-'''
 def dataprepAngle():
 	train = pd.read_json("data/train.json")	# 1604 x 5
 	
@@ -297,6 +265,182 @@ def dataprepAngle():
 	ytr = TRlabel[:1203].astype(float)
 	yte = TRlabel[1203:].astype(float)
 	return xtr, ytr, atr, xte, yte, ate
+
+
+
+
+def denoise(x,H):
+	import cv2 #as cv
+	print 'Denoising the images'
+	'''
+	xdn = np.zeros((x.shape))
+	for i in range(x.shape[0]): # 1604
+		# Force values between 0 and 255, but remember their original scaling
+		xi, oldMinMax = NormColors(x[i], 0, 255.0)
+		
+		xi = xi.astype(np.uint8)
+		
+		x_rgb = cv2.cvtColor(xi, cv2.COLOR_BGR2RGB)
+		dst = cv2.fastNlMeansDenoisingColored(x_rgb,h,hcolor,7,21)	# 10,10,7,21
+	
+		xdn[i] = np.asarray(dst.astype(float))
+		
+		# To preserve the original scaling, we renormalize with old min/max
+		xdn[i] = unNormColors(xdn[i], oldMinMax)
+	'''
+	xdn = np.zeros((x.shape))
+	for i in range(x.shape[0]): # 1604
+		# Force values between 0 and 255, but remember their original scaling
+		xi, oldMinMax = NormColors(x[i], 0, 255.0)
+		
+		xi = xi.astype(np.uint8)
+		# Only need to loop through the first two colors (two bands)
+		for j in range(2):
+			#x_grey = cv2.cvtColor(xi[:, :, j], cv2.CV_RGB2GRAY)
+			dst = cv2.fastNlMeansDenoising(src = xi[:, :, j] ,h=H,templateWindowSize = 7,searchWindowSize = 21)	# 10,10,7,21
+	
+			xdn[i, :, :, j] = np.asarray(dst.astype(float))
+		# To preserve the original scaling, we renormalize with old min/max
+		xdn[i] = unNormColors(xdn[i], oldMinMax)
+	# Keep the angle info the same
+	xdn[:,:,:,2] = x[:,:,:,2]
+	print 'done denoising'
+	return xdn
+
+def NormColors(mat, nMin, nMax): # accepts mat.shape -> (75, 75, 3)
+	oldMinMax = np.zeros((3, 2)) # 3 colors, min and max
+	normMat = np.zeros(mat.shape)
+	for i in range(3):
+		normMat[:,:,i],oldMinMax[i,0],oldMinMax[i,1] = Norm(mat[:, :, i], nMin, nMax)
+	return normMat, oldMinMax
+
+def unNormColors(mat, oldMinMax):
+	unNormMat = np.zeros(mat.shape)
+	for i in range(3):
+		unNormMat[:,:,i],a,b = Norm(mat[:, :, i], oldMinMax[i,0], oldMinMax[i,1])
+	return unNormMat
+
+def augmentPCA(xtr, nComp):
+	from sklearn.decomposition import PCA
+	from math import sqrt
+	
+	xtrFlat = np.zeros((xtr.shape[0], xtr.shape[1]**2, 3))
+	for i in range(3):
+		xtrFlat[:,:,i] = xtr[:, :, :, i].reshape((xtr.shape[0], xtr.shape[1]**2))
+
+	pca1 = PCA(n_components=nComp) # or (n_components=23) or (0.95)
+	pca2 = PCA(n_components=nComp)
+	pca3 = PCA(n_components=nComp)
+
+	pca = [pca1, pca2, pca3]
+
+	pca1.fit(xtrFlat[:, :, 0])
+	pca2.fit(xtrFlat[:, :, 1])
+	pca3.fit(xtrFlat[:, :, 2])
+
+	nDim = int(sqrt(nComp))
+	#xtrT = np.zeros((xtr.shape[0], nDim, nDim, 3))
+	xtrT = np.zeros(( xtr.shape[0], nDim, nDim, 3))
+	xtrTT = np.zeros(xtr.shape)
+
+	for i in range(3):
+		temp1 = pca[i].transform(xtrFlat[:, :, i])
+		xtrT[:, :, :, i] = temp1.reshape((xtr.shape[0], nDim, nDim))
+		temp2 = pca[i].inverse_transform(temp1)
+		xtrTT[:, :, :, i] = temp2.reshape((xtr.shape[0], xtr.shape[1], xtr.shape[1]))
+
+	return xtrT, xtrTT
+
+def augmentFlip(xtr, ytr):
+	import cv2 #as cv
+	# Prepare the arrays that will hold the images
+	vertFlips = np.zeros(xtr.shape)
+	horiFlips = np.zeros(xtr.shape)
+	handvFlips = np.zeros(xtr.shape)
+
+	for i in range(xtr.shape[0]):
+		# Seperate the colors and flip independently
+		a = xtr[i, :, :, 0]
+		b = xtr[i, :, :, 1]
+		c = xtr[i, :, :, 2]
+
+		#av = cv2.flip(a,1)
+		ah = cv2.flip(a,0)
+		#ahv = cv2.flip(ah, 1)
+		#bv = cv2.flip(b,1)
+		bh = cv2.flip(b,0)
+		#bhv = cv2.flip(bh, 1)
+		#cv = cv2.flip(c,1)
+		ch = cv2.flip(c,0)
+		#chv = cv2.flip(ch, 1)		
+
+		#vertFlips[i] = np.dstack((av, bv, cv))
+		horiFlips[i] = np.dstack((ah, bh, ch))
+		#handvFlips[i] = np.dstack((ahv, bhv, chv))	
+
+	xtraug = np.concatenate((xtr, horiFlips), axis=0)
+	# Prepare the y values too
+	ytraug = np.concatenate( (ytr, ytr), axis=0)
+	# Shuffle the data
+	xtraug, ytraug = shuffleData(xtraug, ytraug)
+	return xtraug, ytraug 
+
+
+
+
+#----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
+
+
+
+
+
+'''	
+xtr, ytr, xte, yte = dataprep()
+
+xtr = xtr[0:10, :, :, :]
+#xtr[:,:,:,0] = np.zeros((1,75,75))
+#xtr[:,:,:,2] = np.zeros((1,75,75))
+
+x = np.zeros((100, 75, 75, 3))
+for i in range(10):
+	for j in range(10):
+		x[i*10+j] = denoise(xtr[i:i+1], j*10)
+
+#x = np.concatenate(( xtr, xtrdn), axis = 0)
+
+ShowSquare(x, 10, 10)
+
+'''
+
+
+'''
+xtr = xtr[2:3, :, :, :]
+xtr[:,:,:,0] = np.zeros((1,75,75))
+xtr[:,:,:,2] = np.zeros((1,75,75))
+
+x = np.zeros((16, 75, 75, 3))
+for i in range(4):
+	for j in range(4):
+		x[i*4+j] = denoise(xtr[0:1],i*100, j*3)
+
+#x = np.concatenate(( xtr, xtrdn), axis = 0)
+
+ShowSquare(x, 4, 4)
+
+'''
+
+'''
+xtr, ytr, xte, yte = dataprep()
+xtraug, ytraug = AugmentData( xtr, ytr, 5)
+
+print xtraug.shape, ytraug.shape, xtr.shape, ytr.shape
+'''
+
+
+
+#print np.amin(xtr), np.amax(xtr)
+#print np.amin(xtrdn), np.amax(xtrdn)
+
 
 
 
@@ -491,149 +635,35 @@ def CenterImgWeight():
 '''
 
 
-def denoise(x,H):
-	import cv2 #as cv
-	print 'Denoising the images'
-	'''
-	xdn = np.zeros((x.shape))
-	for i in range(x.shape[0]): # 1604
-		# Force values between 0 and 255, but remember their original scaling
-		xi, oldMinMax = NormColors(x[i], 0, 255.0)
-		
-		xi = xi.astype(np.uint8)
-		
-		x_rgb = cv2.cvtColor(xi, cv2.COLOR_BGR2RGB)
-		dst = cv2.fastNlMeansDenoisingColored(x_rgb,h,hcolor,7,21)	# 10,10,7,21
+'''
+def dataprepAngle():
+	train = pd.read_json("data/train.json")	# 1604 x 5
 	
-		xdn[i] = np.asarray(dst.astype(float))
-		
-		# To preserve the original scaling, we renormalize with old min/max
-		xdn[i] = unNormColors(xdn[i], oldMinMax)
-	'''
-	xdn = np.zeros((x.shape))
-	for i in range(x.shape[0]): # 1604
-		# Force values between 0 and 255, but remember their original scaling
-		xi, oldMinMax = NormColors(x[i], 0, 255.0)
-		
-		xi = xi.astype(np.uint8)
-		# Only need to loop through the first two colors (two bands)
-		for j in range(2):
-			#x_grey = cv2.cvtColor(xi[:, :, j], cv2.CV_RGB2GRAY)
-			dst = cv2.fastNlMeansDenoising(src = xi[:, :, j] ,h=H,templateWindowSize = 7,searchWindowSize = 21)	# 10,10,7,21
+	# Read out the data in the two bands, as 1604 x 75 x 75 arrays
+	TRb1, TRb2, TRname, TRlabel, TRangle, TRonlyAngle = DataSort(train)
+	x1 = TRb1[0:1]
+	x2 = TRb2[0:1]
+	ang = TRangle[0:1]
+
+	for i in range(1604-1):
+		if TRangle[i+1] != 'na':
+			x1 = np.concatenate((x1, np.array([TRb1[i+1]]) ), axis=0)
+			x2 = np.concatenate((x2, np.array([TRb2[i+1]]) ), axis=0)
+			tempang = np.array([TRangle[i+1]])
+			ang = np.concatenate((ang, tempang), axis=0)
+	# DATA PREP
+	xb1 = x1.reshape((x1.shape[0], 75, 75, 1))
+	xb2 = x2.reshape((x1.shape[0], 75, 75, 1))
+	xbavg = (xb1 + xb2) / 2.0
+	#xbavg = np.zeros(xb1.shape)
+	x = np.concatenate((xb1, xb2, xbavg ), axis=3)
 	
-			xdn[i, :, :, j] = np.asarray(dst.astype(float))
-		# To preserve the original scaling, we renormalize with old min/max
-		xdn[i] = unNormColors(xdn[i], oldMinMax)
-	# Keep the angle info the same
-	xdn[:,:,:,2] = x[:,:,:,2]
-	print 'done denoising'
-	return xdn
-
-def NormColors(mat, nMin, nMax): # accepts mat.shape -> (75, 75, 3)
-	oldMinMax = np.zeros((3, 2)) # 3 colors, min and max
-	normMat = np.zeros(mat.shape)
-	for i in range(3):
-		normMat[:,:,i],oldMinMax[i,0],oldMinMax[i,1] = Norm(mat[:, :, i], nMin, nMax)
-	return normMat, oldMinMax
-
-def unNormColors(mat, oldMinMax):
-	unNormMat = np.zeros(mat.shape)
-	for i in range(3):
-		unNormMat[:,:,i],a,b = Norm(mat[:, :, i], oldMinMax[i,0], oldMinMax[i,1])
-	return unNormMat
-
-
-
-def augmentFlip(xtr, ytr):
-	import cv2 #as cv
-	# Prepare the arrays that will hold the images
-	vertFlips = np.zeros(xtr.shape)
-	horiFlips = np.zeros(xtr.shape)
-	handvFlips = np.zeros(xtr.shape)
-
-	for i in range(xtr.shape[0]):
-		# Seperate the colors and flip independently
-		a = xtr[i, :, :, 0]
-		b = xtr[i, :, :, 1]
-		c = xtr[i, :, :, 2]
-
-		#av = cv2.flip(a,1)
-		ah = cv2.flip(a,0)
-		#ahv = cv2.flip(ah, 1)
-		#bv = cv2.flip(b,1)
-		bh = cv2.flip(b,0)
-		#bhv = cv2.flip(bh, 1)
-		#cv = cv2.flip(c,1)
-		ch = cv2.flip(c,0)
-		#chv = cv2.flip(ch, 1)		
-
-		#vertFlips[i] = np.dstack((av, bv, cv))
-		horiFlips[i] = np.dstack((ah, bh, ch))
-		#handvFlips[i] = np.dstack((ahv, bhv, chv))	
-
-	xtraug = np.concatenate((xtr, horiFlips), axis=0)
-	# Prepare the y values too
-	ytraug = np.concatenate( (ytr, ytr), axis=0)
-	# Shuffle the data
-	xtraug, ytraug = shuffleData(xtraug, ytraug)
-	return xtraug, ytraug 
-
-
-
-
-#----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
-
-
-
-
-
-'''	
-xtr, ytr, xte, yte = dataprep()
-
-xtr = xtr[0:10, :, :, :]
-#xtr[:,:,:,0] = np.zeros((1,75,75))
-#xtr[:,:,:,2] = np.zeros((1,75,75))
-
-x = np.zeros((100, 75, 75, 3))
-for i in range(10):
-	for j in range(10):
-		x[i*10+j] = denoise(xtr[i:i+1], j*10)
-
-#x = np.concatenate(( xtr, xtrdn), axis = 0)
-
-ShowSquare(x, 10, 10)
-
+	#ang = FixedNorm(ang, 0, 1)
+	print np.amin(ang), np.amax(ang)
+	
+	xtr = x[:1000,:,:,:]
+	xte = x[1000:,:,:,:]
+	atr = ang[:1000].astype(float)
+	ate = ang[1000:].astype(float)
+	return xtr, atr, xte, ate
 '''
-
-
-'''
-xtr = xtr[2:3, :, :, :]
-xtr[:,:,:,0] = np.zeros((1,75,75))
-xtr[:,:,:,2] = np.zeros((1,75,75))
-
-x = np.zeros((16, 75, 75, 3))
-for i in range(4):
-	for j in range(4):
-		x[i*4+j] = denoise(xtr[0:1],i*100, j*3)
-
-#x = np.concatenate(( xtr, xtrdn), axis = 0)
-
-ShowSquare(x, 4, 4)
-
-'''
-
-'''
-xtr, ytr, xte, yte = dataprep()
-xtraug, ytraug = AugmentData( xtr, ytr, 5)
-
-print xtraug.shape, ytraug.shape, xtr.shape, ytr.shape
-'''
-
-
-
-#print np.amin(xtr), np.amax(xtr)
-#print np.amin(xtrdn), np.amax(xtrdn)
-
-
-
-

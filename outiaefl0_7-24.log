@@ -3,37 +3,31 @@ Using TensorFlow backend.
   from ._conv import register_converters as _register_converters
 You have chosen: Namespace(flip=0)
  
-2018-07-24 17:43:20.591124: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
-2018-07-24 17:43:20.591161: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-25 10:56:37.407223: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-25 10:56:37.407917: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/keras/models.py:258: UserWarning: No training configuration found in save file: the model was *not* compiled. Compile it manually.
+  warnings.warn('No training configuration found in save file: '
 Train on 9627 samples, validate on 401 samples
 Epoch 1/70
-1077s - loss: 209.1643 - acc: 0.3164 - val_loss: 322.2127 - val_acc: 0.7837
+1577s - loss: 209.7017 - acc: 0.3151 - val_loss: 332.3270 - val_acc: 0.7840
 Epoch 2/70
-1078s - loss: 44.9561 - acc: 0.4096 - val_loss: 267.9241 - val_acc: 0.8167
+1575s - loss: 45.9293 - acc: 0.4077 - val_loss: 286.3227 - val_acc: 0.8271
 Epoch 3/70
-1079s - loss: 34.3796 - acc: 0.4423 - val_loss: 219.5839 - val_acc: 0.8451
+1575s - loss: 34.5096 - acc: 0.4388 - val_loss: 234.1829 - val_acc: 0.8528
 Epoch 4/70
-1081s - loss: 27.9414 - acc: 0.4763 - val_loss: 177.5100 - val_acc: 0.8438
+1575s - loss: 27.9315 - acc: 0.4716 - val_loss: 189.5046 - val_acc: 0.8485
 Epoch 5/70
-1077s - loss: 24.3050 - acc: 0.4944 - val_loss: 154.4861 - val_acc: 0.8507
+1574s - loss: 23.9840 - acc: 0.4910 - val_loss: 162.4140 - val_acc: 0.8523
 Epoch 6/70
-1077s - loss: 22.0742 - acc: 0.5023 - val_loss: 145.2834 - val_acc: 0.8485
+1575s - loss: 21.4890 - acc: 0.5027 - val_loss: 146.8575 - val_acc: 0.8528
 Epoch 7/70
-1073s - loss: 20.1178 - acc: 0.5101 - val_loss: 133.3345 - val_acc: 0.8496
+1575s - loss: 19.7583 - acc: 0.5144 - val_loss: 149.0592 - val_acc: 0.8497
 Epoch 8/70
-1076s - loss: 18.7197 - acc: 0.5144 - val_loss: 130.5528 - val_acc: 0.8594
+1573s - loss: 18.7531 - acc: 0.5216 - val_loss: 150.5691 - val_acc: 0.8510
 Epoch 9/70
-1078s - loss: 17.8999 - acc: 0.5231 - val_loss: 130.8713 - val_acc: 0.8534
+1574s - loss: 17.7860 - acc: 0.5296 - val_loss: 135.0212 - val_acc: 0.8517
 Epoch 10/70
-1077s - loss: 17.2268 - acc: 0.5320 - val_loss: 127.9372 - val_acc: 0.8532
+1574s - loss: 16.9999 - acc: 0.5376 - val_loss: 132.2483 - val_acc: 0.8561
 Epoch 11/70
-1077s - loss: 16.7286 - acc: 0.5385 - val_loss: 125.8452 - val_acc: 0.8545
+1574s - loss: 16.4914 - acc: 0.5422 - val_loss: 122.2927 - val_acc: 0.8680
 Epoch 12/70
-1074s - loss: 16.4543 - acc: 0.5430 - val_loss: 133.2992 - val_acc: 0.8752
-Epoch 13/70
-1076s - loss: 17.0569 - acc: 0.5485 - val_loss: 159.2242 - val_acc: 0.8725
-Epoch 14/70
-1077s - loss: 17.3601 - acc: 0.5505 - val_loss: 164.1320 - val_acc: 0.8691
-Epoch 15/70
-1077s - loss: 18.5260 - acc: 0.5480 - val_loss: 161.6830 - val_acc: 0.8758
-Epoch 16/70

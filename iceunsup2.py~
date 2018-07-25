@@ -13,9 +13,9 @@ np.random.seed(7)
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
 
 parser = argparse.ArgumentParser()
-#parser.add_argument("h", help="denoising variable for all colors", type=int)
+parser.add_argument("h", help="denoising variable for all colors", type=int)
 parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
-#parser.add_argument('iters', help='How many times do we run the base cnn?', type=int)
+parser.add_argument('iters', help='How many times do we run the base cnn?', type=int)
 #parser.add_argument('incl', help='How much pseudolabeled data do we include?', type=int)
 g = parser.parse_args()
 
@@ -151,25 +151,39 @@ def Norm(mat, nMin, nMax):
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 
+xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
+xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
+unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
 
-xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
+avgPred = runCnns(xtrT, ytr, xteT, yte, unlabT)
+
+
+
+
+
+
+#xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
+
+
+
+
 
 '''
-encPred, aePred = predictAE(xtr)
+print ((xtrT - xtr) ** 2).mean(axis=None)
+
 
 plotimg = np.zeros((36, 75, 75, 3))
 for i in range(18):
 	plotimg[i*2] = xtr[i]
-	plotimg[i*2+1] = aePred[i]
+	plotimg[i*2+1] = xtrT[i]
 
 ShowSquare(plotimg)
 '''
 
 # Save the prediction
-#SavePred(avgPred, name)
+SavePred(avgPred, name)
 
-
-
+print 'Done'
 
 
 

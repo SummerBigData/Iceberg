@@ -15,7 +15,8 @@ pred = np.array([[0,1,2,3,6,4,3,2,1,2],
 		[ 0,1,2,3,6,4,3,2,1,2],
 		[ 0,1,2,3,6,4,3,2,1,5]])
 
-weig = np.array([1,2, 3])
+arr = np.array([1,2,3,4,5, 6])
 
-wavg = WeightedAvg(pred, weig)
-print wavg
+arrN = arr[np.newaxis, :]
+
+print arr.shape, arrN.shape
