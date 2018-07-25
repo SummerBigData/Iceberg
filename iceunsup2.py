@@ -155,9 +155,9 @@ xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
 xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
 unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
 
-avgPred = runCnns(xtrT, ytr, xteT, yte, unlabT)
+#avgPred = runCnns(xtrTT, ytr, xteTT, yte, unlabTT)
 
-
+prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 
 
 
@@ -181,7 +181,7 @@ ShowSquare(plotimg)
 '''
 
 # Save the prediction
-SavePred(avgPred, name)
+#SavePred(avgPred, name)
 
 print 'Done'
 

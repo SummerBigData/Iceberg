@@ -348,7 +348,8 @@ def augmentPCA(xtr, nComp):
 		xtrT[:, :, :, i] = temp1.reshape((xtr.shape[0], nDim, nDim))
 		temp2 = pca[i].inverse_transform(temp1)
 		xtrTT[:, :, :, i] = temp2.reshape((xtr.shape[0], xtr.shape[1], xtr.shape[1]))
-
+	
+	xtrT = xtrT.reshape((xtr.shape[0], nComp*3))
 	return xtrT, xtrTT
 
 def augmentFlip(xtr, ytr):

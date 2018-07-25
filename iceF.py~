@@ -6,10 +6,10 @@ import keras
 from keras import regularizers
 from keras.models import Sequential, load_model, Model
 from keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D, Activation, Input
-from keras.layers import Conv2DTranspose, Reshape, UpSampling2D
+from keras.layers import Conv2DTranspose, Reshape, UpSampling2D, concatenate
 from keras.optimizers import Adam
 from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
+from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping, ReduceLROnPlateau
 from keras.utils import plot_model
 import os.path # To check if a file exists
 import iceDataPrep
@@ -50,11 +50,12 @@ def ShowSquare(band1, band2):
 def getCNN(imgsize):
 	#Building the model
 	gmodel=Sequential()
+	
 	#Conv Layer 1
 	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu', input_shape=(imgsize, imgsize, 3)))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
-	'''
+	
 	#Conv Layer 2
 	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
@@ -69,11 +70,19 @@ def getCNN(imgsize):
 	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
-	'''
+	
 	#Flatten the data for upcoming dense layers
 	gmodel.add(Flatten())
 	
 	#Dense Layers
+	gmodel.add(Dense(512, input_shape=(25*3,) ))
+	gmodel.add(Activation('relu'))
+	gmodel.add(Dropout(0.2))
+
+	gmodel.add(Dense(512))
+	gmodel.add(Activation('relu'))
+	gmodel.add(Dropout(0.2))
+
 	gmodel.add(Dense(512))
 	gmodel.add(Activation('relu'))
 	gmodel.add(Dropout(0.2))
@@ -94,34 +103,57 @@ def getCNN(imgsize):
 	gmodel.summary()
 	return gmodel
 
-def getAE():
-	'''
-	# Encoder
-	inputs = Input(shape=(75, 75, 3))
 
-	c1 = Conv2D(32, kernel_size=(2, 2),activation='relu', padding='same')(inputs)
-	p1 = MaxPooling2D((2, 2), padding='same')(c1)
-	d1 = Dropout(0.2)(p1)
+def getCNNpca(imgsize):
+	input1 = Input(shape=(imgsize, imgsize, 3))
+	input2 = Input(shape=(25*3,))
 
-	c2 = Conv2D(16, kernel_size=(3, 3),activation='relu', padding='same')(d1)
-	p2 = MaxPooling2D((2, 2), padding='same')(c1)
-	d2 = Dropout(0.2)(c2)
-	f1 = Flatten()(d2)
+	x = Conv2D(64, (3, 3), activation='relu', padding='same')(input1)
+	x = MaxPooling2D((2, 2), strides=(2, 2))(x)
+	x = Dropout(0.2)(x)
 
-	D1 = Dense(75*75*16, activation='relu')(f1)
-	D2 = Dense(128, activation='relu')(D1)
-	D3 = Dense(64, activation='relu',activity_regularizer=regularizers.l1(10e-5))(D2)
+	x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2))(x)
+	x = Dropout(0.2)(x)
+
+	x = Conv2D(128, (3, 3), activation='relu', padding='same')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2))(x)
+	x = Dropout(0.2)(x)
+
+	x = Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2))(x)
+	x = Dropout(0.2)(x)
 	
-	# Decoder
-	D4 = Dense(128, activation='relu')(D3)
-	D5 = Dense(75*75*16, activation='relu')(D4)
-	re = Reshape((75, 75, 16))(D5)
+	#Flatten the data for upcoming dense layers
+	x = Flatten()(x)
+	x = concatenate([x, input2])
+	#Dense Layers
+	x = Dense(2048, activation='relu')(x)
+	x = Dropout(0.2)(x)
 
-	d3 = Dropout(0.2)(re)
-	dc1 = Conv2DTranspose(16, kernel_size=(3, 3), activation='relu', padding='same')(d3)
-	d4 = Dropout(0.2)(dc1)
-	dc2 = Conv2DTranspose(3, kernel_size=(2, 2), activation='relu', padding='same')(d4)
-	'''
+	x = Dense(512, activation='relu')(x)
+	x = Dropout(0.2)(x)
+
+	x = Dense(512, activation='relu')(x)
+	x = Dropout(0.2)(x)
+
+	#Dense Layer 2
+	x = Dense(256, activation='relu')(x)
+	x = Dropout(0.2)(x)
+	
+	#Sigmoid Layer
+	done = Dense(1, activation='sigmoid')(x)
+	
+	gmodel = Model(inputs=([input1, input2]), outputs=done)
+	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	gmodel.compile(loss='binary_crossentropy',
+		optimizer=mypotim,
+		metrics=['accuracy'])
+	gmodel.summary()
+	return gmodel
+
+
+def getAE():
 	# Encode
 	inputs = Input(shape=(75, 75, 3))  # adapt this if using `channels_first` image data format
 
@@ -182,7 +214,8 @@ def getAE():
 def get_callbacks(filepath, patience=8):	
 	es = EarlyStopping('val_loss', patience=patience, mode="min")
 	msave = ModelCheckpoint(filepath, monitor='val_loss',save_best_only=True,save_weights_only=True)
-	return [es, msave]
+	reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.001)
+	return [es, msave, reduce_lr]
 
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
@@ -248,7 +281,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		callbacks=callbacks)
 
 	# evaluate the model
-	model.load_weights(saveStr)
+	#model.load_weights(saveStr)
 
 	# Calculate the scores on the training and testing data
 	results = np.zeros((2, 2))
@@ -264,6 +297,65 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	prediction = model.predict(unlab)
 
 	return prediction.flatten(), results
+
+def cnnPCA(xtr, pcatr, ytr, xte, pcate, yte, unlab, ind):
+# Use a seed based on the index
+	np.random.seed(ind)
+
+	epo = 70
+	bsize = 100
+	imgsize = xtr.shape[1]
+	saveStr = 'iceunsup2/cnnPCAEpo'+str(epo)+'Bsize'+str(bsize)+'ind'+str(ind)
+	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
+
+	# KERAS NEURAL NETWORK
+
+	# Get or make the model. Need a different model for each trimsize
+	#if os.path.exists('models/iceModel' + str(imgsize) ):
+	#	model = load_model('models/iceModel' + str(imgsize) )
+	#else:
+	model = getCNNpca(imgsize)
+	model.save('models/iceCnnPca' + str(imgsize) )
+	
+	# Get or do the run. No need to run things more than necessary, right?
+	#if os.path.exists(saveStr):
+	#	print 'Pulling index', ind, 'from previous runs'
+	#	model.load_weights(saveStr)
+	
+	#else:
+	callbacks = get_callbacks(filepath=saveStr, patience=80)
+		# Fit the model
+	model.fit([xtr, pcatr], ytr,
+		batch_size=bsize,
+		epochs=epo,
+		verbose=2,
+		validation_data=([xte, pcate], yte),
+		callbacks=callbacks)
+
+	# evaluate the model
+	#model.load_weights(saveStr)
+
+	# Calculate the scores on the training and testing data
+	results = np.zeros((2, 2))
+	# Training
+	scores = model.evaluate([xtr, pcatr], ytr, verbose=0)
+	results[0, 0] = scores[0]
+	results[0, 1] = scores[1]
+	# Testing
+	scores = model.evaluate([xte, pcate], yte, verbose=0)
+	results[1, 0] = scores[0]
+	results[1, 1] = scores[1]
+
+	prediction = model.predict(unlab)
+
+	return prediction.flatten(), results
+
+
+
+
+
+
+
 
 
 def autoencoder(xtr, ytr, xte, yte, unlab, flip):

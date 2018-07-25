@@ -253,3 +253,97 @@ Epoch 16/70
 Epoch 17/70
 156s - loss: 0.1598 - acc: 0.9422 - val_loss: 0.2307 - val_acc: 0.9401
 Epoch 18/70
+156s - loss: 0.0799 - acc: 0.9697 - val_loss: 0.2502 - val_acc: 0.9302
+Epoch 19/70
+156s - loss: 0.0650 - acc: 0.9722 - val_loss: 0.1857 - val_acc: 0.9401
+Epoch 20/70
+156s - loss: 0.0919 - acc: 0.9634 - val_loss: 0.1913 - val_acc: 0.9352
+Epoch 21/70
+156s - loss: 0.0744 - acc: 0.9688 - val_loss: 0.1742 - val_acc: 0.9352
+Epoch 22/70
+156s - loss: 0.2242 - acc: 0.9007 - val_loss: 0.1970 - val_acc: 0.9327
+Epoch 23/70
+156s - loss: 0.1459 - acc: 0.9381 - val_loss: 0.1807 - val_acc: 0.9401
+Epoch 24/70
+156s - loss: 0.1026 - acc: 0.9580 - val_loss: 0.2365 - val_acc: 0.9352
+Epoch 25/70
+156s - loss: 0.0772 - acc: 0.9688 - val_loss: 0.2348 - val_acc: 0.9327
+Epoch 26/70
+156s - loss: 0.0821 - acc: 0.9676 - val_loss: 0.2347 - val_acc: 0.9352
+Epoch 27/70
+156s - loss: 0.0834 - acc: 0.9663 - val_loss: 0.2238 - val_acc: 0.9327
+Epoch 28/70
+156s - loss: 0.0870 - acc: 0.9680 - val_loss: 0.2401 - val_acc: 0.9377
+Epoch 29/70
+156s - loss: 0.0861 - acc: 0.9692 - val_loss: 0.2492 - val_acc: 0.9177
+Training percent for iter 9 is 97.33998336994144 with log loss 0.08779000495239188
+Testing percent for iter 9 is 95.76059851860464 with log loss 0.1437315908899331
+ 
+Running iter 10
+ 
+Denoising the images
+done denoising
+Train on 2406 samples, validate on 401 samples
+Epoch 1/70
+158s - loss: 8.1116 - acc: 0.4726 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 2/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 3/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 4/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 5/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 6/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 7/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 8/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 9/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 10/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 11/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 12/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 13/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 14/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 15/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 16/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 17/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 18/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 19/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 20/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 21/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 22/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Training percent for iter 10 is 47.381546134663346 with log loss 8.38863630009411
+Testing percent for iter 10 is 45.635910328486915 with log loss 8.666932248712477
+ 
+Running iter 11
+ 
+Denoising the images
+done denoising
+Train on 2406 samples, validate on 401 samples
+Epoch 1/70
+158s - loss: 8.1351 - acc: 0.4726 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 2/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 3/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 4/70
+157s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 5/70
+156s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 6/70

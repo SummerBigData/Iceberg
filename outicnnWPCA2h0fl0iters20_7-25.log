@@ -1,0 +1,132 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+You have chosen: Namespace(flip=0, h=0, iters=10)
+ 
+Running iter 1
+ 
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 73, 73, 64)        1792      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 36, 36, 64)        0         
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 36, 36, 64)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 34, 34, 128)       73856     
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 17, 17, 128)       0         
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 17, 17, 128)       0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 15, 15, 128)       147584    
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 7, 7, 128)         0         
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 7, 7, 128)         0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 5, 5, 64)          73792     
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 2, 2, 64)          0         
+_________________________________________________________________
+dropout_4 (Dropout)          (None, 2, 2, 64)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 256)               0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 512)               131584    
+_________________________________________________________________
+activation_1 (Activation)    (None, 512)               0         
+_________________________________________________________________
+dropout_5 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               262656    
+_________________________________________________________________
+activation_2 (Activation)    (None, 512)               0         
+_________________________________________________________________
+dropout_6 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 512)               262656    
+_________________________________________________________________
+activation_3 (Activation)    (None, 512)               0         
+_________________________________________________________________
+dropout_7 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 256)               131328    
+_________________________________________________________________
+activation_4 (Activation)    (None, 256)               0         
+_________________________________________________________________
+dropout_8 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 257       
+_________________________________________________________________
+activation_5 (Activation)    (None, 1)                 0         
+=================================================================
+Total params: 1,085,505
+Trainable params: 1,085,505
+Non-trainable params: 0
+_________________________________________________________________
+2018-07-25 17:16:53.774744: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-25 17:16:53.774769: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Train on 1203 samples, validate on 401 samples
+Epoch 1/70
+83s - loss: 7.8195 - acc: 0.4730 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 2/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 3/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 4/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 5/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 6/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 7/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 8/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 9/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 10/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 11/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 12/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 13/70
+84s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 14/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 15/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 16/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 17/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 18/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 19/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 20/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 21/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 22/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 23/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 24/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 25/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 26/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 27/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 28/70
+82s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 29/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 30/70
+83s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 31/70

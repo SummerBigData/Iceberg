@@ -21,4 +21,4 @@ source activate local
 
 #python -u icecnn.py $PBS_ARRAYID >& outIceCnn7-2_$PBS_ARRAYID.log
 # h, flip, iters, pseusize
-python -u iceunsup2.py 0 0 20 0 >& outiunsup2h0fl0iters20_7-25
+python -u iceunsup2.py 0 0 20 0 >& outiunsup2h0fl0iters20_7-25.log

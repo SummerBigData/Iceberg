@@ -340,16 +340,15 @@ def augmentPCA(xtr, nComp):
 
 	nDim = int(sqrt(nComp))
 	#xtrT = np.zeros((xtr.shape[0], nDim, nDim, 3))
-	xtrT = np.zeros(( xtr.shape[0], nDim, nDim, 3))
+	xtrT = np.zeros(( xtr.shape[0],nComp*3))
 	xtrTT = np.zeros(xtr.shape)
 
 	for i in range(3):
-		temp1 = pca[i].transform(xtrFlat[:, :, i])
-		xtrT[:, :, :, i] = temp1.reshape((xtr.shape[0], nDim, nDim))
-		temp2 = pca[i].inverse_transform(temp1)
+		xtrT[:, :, i] = pca[i].transform(xtrFlat[:, :, i])
+		temp2 = pca[i].inverse_transform(xtrT[:, :, i])
 		xtrTT[:, :, :, i] = temp2.reshape((xtr.shape[0], xtr.shape[1], xtr.shape[1]))
 
-	return xtrTT
+	return xtrT, xtrTT
 
 def augmentFlip(xtr, ytr):
 	import cv2 #as cv
