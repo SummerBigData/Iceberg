@@ -23,7 +23,7 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn0flip0iters5.csv'
-saveStr = 'submits/subPullPredWAvging7-23dn0flip0iters5.csv'
+saveStr = 'submits/subPullPred98WAvging7-23dn0flip0iters5.csv'
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
@@ -104,7 +104,7 @@ unlab, name = grabUnlab()
 
 bestPred = ReadSubmit(csvStr)
 
-pullPred = PullAcc(bestPred, 0.95)
+pullPred = PullAcc(bestPred, 0.98)
 
 
 

@@ -100,11 +100,11 @@ def PullAcc(bestPred, threshold):
 
 # Grab data
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
-#unlab, name = grabUnlab()
+unlab, name = grabUnlab()
 
 bestPred = ReadSubmit(csvStr)
 
-pullPred = PullAcc(bestPred, 0.95)
+pullPred = PullAcc(bestPred, 0.98)
 
 
 
