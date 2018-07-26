@@ -15,3 +15,15 @@ Epoch 2/70
 Epoch 3/70
 403s - loss: 0.5797 - acc: 0.6617 - val_loss: 0.5473 - val_acc: 0.6708
 Epoch 4/70
+403s - loss: 0.5188 - acc: 0.7165 - val_loss: 0.5899 - val_acc: 0.6359
+Epoch 5/70
+403s - loss: 0.5235 - acc: 0.7116 - val_loss: 0.4586 - val_acc: 0.7855
+Epoch 6/70
+412s - loss: 0.4368 - acc: 0.7922 - val_loss: 0.3978 - val_acc: 0.8080
+Epoch 7/70
+410s - loss: 0.4234 - acc: 0.8030 - val_loss: 0.4301 - val_acc: 0.7781
+Epoch 8/70
+410s - loss: 0.3644 - acc: 0.8387 - val_loss: 0.3613 - val_acc: 0.8130
+Epoch 9/70
+410s - loss: 0.3659 - acc: 0.8346 - val_loss: 0.7844 - val_acc: 0.7406
+Epoch 10/70
