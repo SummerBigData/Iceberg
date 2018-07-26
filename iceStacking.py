@@ -23,7 +23,7 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn0flip0iters5.csv'
-saveStr = 'submits/subPushPredWAvging7-23dn0flip0iters5.csv'
+saveStr = 'submits/subPullPredWAvging7-23dn0flip0iters5.csv'
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
@@ -79,6 +79,18 @@ def PushAcc(bestPred, threshold):
 			pushPred[i] = bestPred[i]
 	return pushPred
 
+def PullAcc(bestPred, threshold):
+	pullPred = np.zeros(bestPred.shape).astype(float)
+
+	for i in range(bestPred.shape[0]):
+		if bestPred[i] > threshold:
+			pullPred[i] = threshold
+		elif bestPred[i] < 1 -threshold:
+			pullPred[i] = 1 - threshold
+		else:
+			pullPred[i] = bestPred[i]
+	return pullPred
+
 
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
@@ -92,12 +104,12 @@ unlab, name = grabUnlab()
 
 bestPred = ReadSubmit(csvStr)
 
-pushPred = PushAcc(bestPred, 0.95)
+pullPred = PullAcc(bestPred, 0.95)
 
 
 
 
-SavePred(pushPred, name)
+SavePred(pullPred, name)
 
 print 'Done'
 

@@ -143,3 +143,7 @@ Epoch 25/70
 Epoch 26/70
 256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
 Epoch 27/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 28/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 29/70

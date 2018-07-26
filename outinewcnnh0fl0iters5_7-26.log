@@ -11,3 +11,7 @@ Train on 1203 samples, validate on 401 samples
 Epoch 1/70
 403s - loss: 0.7003 - acc: 0.5046 - val_loss: 0.6639 - val_acc: 0.6234
 Epoch 2/70
+403s - loss: 0.6310 - acc: 0.6243 - val_loss: 0.6075 - val_acc: 0.6608
+Epoch 3/70
+403s - loss: 0.5797 - acc: 0.6617 - val_loss: 0.5473 - val_acc: 0.6708
+Epoch 4/70
