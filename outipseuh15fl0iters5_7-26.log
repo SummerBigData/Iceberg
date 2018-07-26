@@ -1,0 +1,35 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+You have chosen: Namespace(flip=0, h=0, iters=5)
+ 
+Running iter 1
+ 
+2018-07-26 11:05:51.956226: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-26 11:05:51.956505: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Pulling index 50 from previous runs
+Training percent for iter 1 is 60.73543159181831 with log loss 6.328700644335693
+Testing percent for iter 1 is 54.3640897978571 with log loss 7.355639531428083
+ 
+Running iter 2
+ 
+Train on 9627 samples, validate on 401 samples
+Epoch 1/70
+669s - loss: 6.2902 - acc: 0.6058 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 2/70
+665s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 3/70
+703s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 4/70
+686s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 5/70
+672s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 6/70
+672s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 7/70
+669s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 8/70
+697s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 9/70
+703s - loss: 6.3287 - acc: 0.6074 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 10/70

@@ -49,59 +49,46 @@ def ShowSquare(band1, band2):
 
 def getCNN(imgsize):
 	#Building the model
-	gmodel=Sequential()
+	model=Sequential()
 	
-	#Conv Layer 1
-	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu', input_shape=(imgsize, imgsize, 3)))
-	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	gmodel.add(Dropout(0.2))
-	
-	#Conv Layer 2
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
-	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	gmodel.add(Dropout(0.2))
+	# Conv block 1
+	model.add(Conv2D(64,kernel_size=(3, 3),activation='relu',input_shape=(imgsize,imgsize,3)))
+	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu' ))
+	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu' ))
+	model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
 
-	#Conv Layer 3
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	gmodel.add(Dropout(0.2))
-	
-	#Conv Layer 4
-	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
-	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-	gmodel.add(Dropout(0.2))
-	
-	#Flatten the data for upcoming dense layers
-	gmodel.add(Flatten())
-	
-	#Dense Layers
-	gmodel.add(Dense(512, input_shape=(25*3,) ))
-	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
+	# Conv block 2
+	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
+	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
+	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
+	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-	gmodel.add(Dense(512))
-	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
+	# Conv block 3
+	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-	gmodel.add(Dense(512))
-	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
+	#Conv block 4
+	model.add(Conv2D(256, kernel_size=(3, 3), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-	#Dense Layer 2
-	gmodel.add(Dense(256))
-	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
-	
-	#Sigmoid Layer
-	gmodel.add(Dense(1))
-	gmodel.add(Activation('sigmoid'))
+	# Flatten before dense
+	model.add(Flatten())
 
-	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-	gmodel.compile(loss='binary_crossentropy',
-		optimizer=mypotim,
-		metrics=['accuracy'])
-	gmodel.summary()
-	return gmodel
+	#Dense 1
+	model.add(Dense(1024, activation='relu'))
+	#model.add(Dropout(0.4))
+
+	#Dense 2
+	model.add(Dense(512, activation='relu'))
+	#model.add(Dropout(0.2))
+
+	# Output 
+	model.add(Dense(1, activation="sigmoid"))
+
+	mypotim=Adam(lr=0.0001, decay=0.0)
+	model.compile(loss='binary_crossentropy',optimizer=mypotim,metrics=['accuracy'])
+	model.summary()
+	return model
 
 
 def getCNNpca(imgsize):
@@ -129,18 +116,9 @@ def getCNNpca(imgsize):
 	x = concatenate([x, input2])
 	#Dense Layers
 	x = Dense(2048, activation='relu')(x)
-	x = Dropout(0.2)(x)
-
 	x = Dense(512, activation='relu')(x)
-	x = Dropout(0.2)(x)
-
 	x = Dense(512, activation='relu')(x)
-	x = Dropout(0.2)(x)
-
-	#Dense Layer 2
 	x = Dense(256, activation='relu')(x)
-	x = Dropout(0.2)(x)
-	
 	#Sigmoid Layer
 	done = Dense(1, activation='sigmoid')(x)
 	
@@ -158,16 +136,16 @@ def getAE():
 	inputs = Input(shape=(75, 75, 3))  # adapt this if using `channels_first` image data format
 
 	x = Conv2D(5, (3, 3), activation='relu', padding='same')(inputs)
-	x = Dropout(0.2)(x)
+	#x = Dropout(0.2)(x)
 
 	x = Conv2D(15, (3, 3), activation='relu', padding='same')(x)
 	x = MaxPooling2D((3, 3), padding='same')(x)
-	x = Dropout(0.2)(x)
+	#x = Dropout(0.2)(x)
 
 	x = Conv2D(75, (3, 3), activation='relu', padding='same')(x)
 	x = MaxPooling2D((5, 5), padding='same')(x)
-	clayers = Dropout(0.2)(x)
-
+	#clayers = Dropout(0.2)(x)
+	clayers = x
 	x = Flatten()(clayers)
 	x = Dense(125, activation='relu')(x)
 	x = Dense(125, activation='relu')(x)
@@ -178,15 +156,15 @@ def getAE():
 	x = Dense(125, activation='relu')(x)
 	x = Reshape((5,5,5))(x)
 	
-	x = Dropout(0.2)(x)
+	#x = Dropout(0.2)(x)
 	x = UpSampling2D((5, 5))(x)
 	x = Conv2D(75, (3, 3), activation='relu', padding='same')(x)
 	
-	x = Dropout(0.2)(x)
+	#x = Dropout(0.2)(x)
 	x = UpSampling2D((3, 3))(x)
 	x = Conv2D(15, (3, 3), activation='relu', padding='same')(x)
 	
-	x = Dropout(0.2)(x)
+	#x = Dropout(0.2)(x)
 	x = Conv2D(5, (3, 3), activation='relu', padding='same')(x)
 	decoded = Conv2D(3, (2, 2), activation='linear', padding='same')(x)
 	
@@ -245,7 +223,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	epo = 70
 	bsize = 100
 	imgsize = xtr.shape[1]
-	saveStr = 'iceunsup2/icePCAEpo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
+	saveStr = 'iceunsup2/Epo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
 	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
 
 	# Denoise the images as an augmentation to the dataset. doubles dataset size
@@ -259,11 +237,11 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# KERAS NEURAL NETWORK
 
 	# Get or make the model. Need a different model for each trimsize
-	#if os.path.exists('models/iceModel' + str(imgsize) ):
-	#	model = load_model('models/iceModel' + str(imgsize) )
-	#else:
-	model = getCNN(imgsize)
-	model.save('models/iceModel' + str(imgsize) )
+	if os.path.exists('models/iceModel' + str(imgsize)) and ind!=0 and ind!=50): #and ind!=100:
+		model = load_model('models/iceModel' + str(imgsize) )
+	else:
+		model = getCNN(imgsize)
+		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
 	#if os.path.exists(saveStr):
@@ -281,7 +259,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		callbacks=callbacks)
 
 	# evaluate the model
-	#model.load_weights(saveStr)
+	model.load_weights(saveStr)
 
 	# Calculate the scores on the training and testing data
 	results = np.zeros((2, 2))

@@ -1,0 +1,253 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+You have chosen: Namespace(flip=0, h=0, iters=20)
+ 
+Running iter 1
+ 
+2018-07-26 10:08:56.945402: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-26 10:08:56.945974: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Pulling index 0 from previous runs
+Training percent for iter 1 is 94.09808811305071 with log loss 0.13974905182496766
+Testing percent for iter 1 is 92.76807981536275 with log loss 0.16921222611258452
+ 
+Running iter 2
+ 
+Pulling index 1 from previous runs
+Training percent for iter 2 is 94.51371571072319 with log loss 0.14060205553758173
+Testing percent for iter 2 is 93.01745637396624 with log loss 0.15888849302123015
+ 
+Running iter 3
+ 
+Pulling index 2 from previous runs
+Training percent for iter 3 is 93.10058187863675 with log loss 0.15662250002027053
+Testing percent for iter 3 is 91.5211970223453 with log loss 0.20652074922349983
+ 
+Running iter 4
+ 
+Pulling index 3 from previous runs
+Training percent for iter 4 is 94.18121366726787 with log loss 0.15246724565254086
+Testing percent for iter 4 is 93.51620949117323 with log loss 0.17119690590071263
+ 
+Running iter 5
+ 
+Pulling index 4 from previous runs
+Training percent for iter 5 is 95.01246882793018 with log loss 0.12237555817611893
+Testing percent for iter 5 is 92.26932671301978 with log loss 0.20235976472757106
+ 
+Running iter 6
+ 
+Pulling index 5 from previous runs
+Training percent for iter 6 is 96.34247714048213 with log loss 0.09563776021722645
+Testing percent for iter 6 is 94.01496260838022 with log loss 0.18932673491147392
+ 
+Running iter 7
+ 
+Pulling index 6 from previous runs
+Training percent for iter 7 is 95.92684954280965 with log loss 0.10513413546054143
+Testing percent for iter 7 is 93.76558604977672 with log loss 0.19736230113262548
+ 
+Running iter 8
+ 
+Pulling index 7 from previous runs
+Training percent for iter 8 is 96.17622610141314 with log loss 0.09837184668729951
+Testing percent for iter 8 is 92.51870327162325 with log loss 0.18997687250004147
+ 
+Running iter 9
+ 
+Pulling index 8 from previous runs
+Training percent for iter 9 is 94.43059019118868 with log loss 0.14385273813557248
+Testing percent for iter 9 is 92.51870325675927 with log loss 0.18995791807436288
+ 
+Running iter 10
+ 
+Pulling index 9 from previous runs
+Training percent for iter 10 is 94.51371571072319 with log loss 0.13164336913430186
+Testing percent for iter 10 is 91.77057358094879 with log loss 0.18648613104945108
+ 
+Running iter 11
+ 
+Pulling index 10 from previous runs
+Training percent for iter 11 is 95.84372402327514 with log loss 0.08911016470491762
+Testing percent for iter 11 is 92.01995015441628 with log loss 0.1789254306111847
+ 
+Running iter 12
+ 
+Pulling index 11 from previous runs
+Training percent for iter 12 is 94.0149625935162 with log loss 0.14295174123476245
+Testing percent for iter 12 is 92.01995013955228 with log loss 0.2130618741982001
+ 
+Running iter 13
+ 
+Pulling index 12 from previous runs
+Training percent for iter 13 is 96.50872817955111 with log loss 0.10095150933576963
+Testing percent for iter 13 is 92.26932671301978 with log loss 0.18030773047497148
+ 
+Running iter 14
+ 
+Pulling index 13 from previous runs
+Training percent for iter 14 is 94.84621778886118 with log loss 0.11487987963134362
+Testing percent for iter 14 is 92.26932671301978 with log loss 0.17260322491278374
+ 
+Running iter 15
+ 
+Pulling index 14 from previous runs
+Training percent for iter 15 is 96.59185369908562 with log loss 0.10268780285785174
+Testing percent for iter 15 is 93.26683293256973 with log loss 0.16417437342188304
+ 
+Running iter 16
+ 
+Train on 1203 samples, validate on 401 samples
+Epoch 1/70
+86s - loss: 7.5089 - acc: 0.4904 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 2/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 3/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 4/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 5/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 6/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 7/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 8/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 9/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 10/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 11/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 12/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 13/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 14/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 15/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 16/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 17/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 18/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 19/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 20/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 21/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 22/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 23/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 24/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 25/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 26/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 27/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 28/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 29/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 30/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 31/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 32/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 33/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 34/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 35/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 36/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 37/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 38/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 39/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 40/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 41/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 42/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 43/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 44/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 45/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 46/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 47/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 48/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 49/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 50/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 51/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 52/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 53/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 54/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 55/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 56/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 57/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 58/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 59/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 60/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 61/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 62/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 63/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 64/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 65/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 66/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 67/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 68/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 69/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Epoch 70/70
+85s - loss: 8.3886 - acc: 0.4738 - val_loss: 8.6669 - val_acc: 0.4564
+Training percent for iter 16 is 47.381546129708674 with log loss 8.388636290581148
+Testing percent for iter 16 is 45.635910328486915 with log loss 8.666932248712477
+ 
+Running iter 17
+ 
+Train on 1203 samples, validate on 401 samples
+Epoch 1/70
+421s - loss: 0.6942 - acc: 0.4913 - val_loss: 0.6843 - val_acc: 0.5436
+Epoch 2/70
+419s - loss: 0.6270 - acc: 0.5993 - val_loss: 0.6730 - val_acc: 0.5436
+Epoch 3/70
+419s - loss: 0.5957 - acc: 0.6118 - val_loss: 0.5370 - val_acc: 0.6933
+Epoch 4/70

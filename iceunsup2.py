@@ -14,16 +14,20 @@ np.random.seed(7)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("h", help="denoising variable for all colors", type=int)
-parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
+#parser.add_argument("flip", help="Augmented data using flips? 0 for no, 1 for yes", type=int)
 parser.add_argument('iters', help='How many times do we run the base cnn?', type=int)
 #parser.add_argument('incl', help='How much pseudolabeled data do we include?', type=int)
 g = parser.parse_args()
-
+g.flip = 0
 print 'You have chosen:', g
 print ' '
 
-#csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-#unsupCsvStr = 'submits/subWAvgingUnsup7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'.csv'
+csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+avgCsvStr = 'submits/subnewModWAvging7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+
+pseuCsvStr = 'submits/subpseuWAvgingUnsup7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
+
+
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
 
@@ -59,20 +63,19 @@ def SavePred(pred, name):
 	submission = pd.DataFrame()
 	submission['id']= name
 	submission['is_iceberg']= pred.reshape((pred.shape[0]))
-	submission.to_csv(csvStr, index=False)
+	submission.to_csv(avgCsvStr, index=False)
 
-def runCnns(xtr, ytr, xte, yte, unlab):
+def runCnns(xtr, ytr, xte, yte, unlab, iterplus):
 	# Create arrays to store the results
 	pred = np.zeros(( g.iters, unlab.shape[0] ))
 	# We are storing both the percent and logloss for both training and testing runs
 	scores = np.zeros(( g.iters, 2, 2 ))
-
 	# Run the CNN for g.iters times to collect the predictions from many trials
 	# The function main automatically loads previous weights if the iteration number, h, and flip are the same
 	for i in range(g.iters):
 		print 'Running iter', i+1
 		print ' '
-		pred[i], scores[i] = iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, i)
+		pred[i],scores[i]=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, i+iterplus)
 		print 'Training percent for iter', i+1, 'is', scores[i, 0, 1]*100, 'with log loss', scores[i, 0, 0]
 		print 'Testing percent for iter', i+1, 'is', scores[i, 1, 1]*100, 'with log loss', scores[i, 1, 0]
 		print ' '
@@ -141,6 +144,20 @@ def Norm(mat, nMin, nMax):
 	normMat = ((mat - Min) / (Max - Min)) * (nMax - nMin) + nMin
 	return normMat, Min, Max
 
+def ReadSubmit(string):
+	dat = np.genfromtxt(string, delimiter=',')
+	labels = dat[1:, 1]
+	return labels
+
+def GenPseudoDat(string, xtr, ytr, unlab):
+	bestLabel = ReadSubmit(string)
+	bestLabel = ConvFloattoBin(bestLabel)
+	
+	pseuxtr = np.concatenate( (xtr, unlab), axis=0)
+	pseuytr = np.concatenate( (ytr, bestLabel) )
+	pseuxtr, pseuytr = iceDataPrep.shuffleData(pseuxtr, pseuytr)
+	return pseuxtr, pseuytr
+
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 
@@ -150,23 +167,22 @@ def Norm(mat, nMin, nMax):
 # Grab data
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
-
+'''
 xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
 xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
 unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
+'''
+avgPred = runCnns(xtr, ytr, xte, yte, unlab, 100)
 
-#avgPred = runCnns(xtrTT, ytr, xteTT, yte, unlabTT)
-
-prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
-
-
-
+#prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 
 #xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
+'''
+pseuxtr, pseuytr = GenPseudoDat('submits/subWAvging7-23dn0flip0iters5.csv', xtr, ytr, unlab)
 
 
-
-
+avgPred = runCnns(pseuxtr, pseuytr, xte, yte, unlab, 50)
+'''
 
 '''
 print ((xtrT - xtr) ** 2).mean(axis=None)
@@ -181,7 +197,7 @@ ShowSquare(plotimg)
 '''
 
 # Save the prediction
-#SavePred(avgPred, name)
+SavePred(avgPred, name)
 
 print 'Done'
 

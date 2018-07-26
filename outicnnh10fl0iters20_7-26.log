@@ -1,0 +1,145 @@
+Using TensorFlow backend.
+/users/PAS1383/osu10171/.conda/envs/local/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+You have chosen: Namespace(flip=0, h=10, iters=20)
+ 
+Running iter 1
+ 
+Denoising the images
+done denoising
+2018-07-26 10:10:20.044123: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-07-26 10:10:20.044691: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+Pulling index 0 from previous runs
+Training percent for iter 1 is 93.68246051537822 with log loss 0.17105828510505997
+Testing percent for iter 1 is 93.26683294743374 with log loss 0.18307278400050137
+ 
+Running iter 2
+ 
+Denoising the images
+done denoising
+Pulling index 1 from previous runs
+Training percent for iter 2 is 96.42560266001664 with log loss 0.08555770569410506
+Testing percent for iter 2 is 94.2643391669837 with log loss 0.1734092491969206
+ 
+Running iter 3
+ 
+Denoising the images
+done denoising
+Pulling index 2 from previous runs
+Training percent for iter 3 is 94.97090606816293 with log loss 0.11998652169482468
+Testing percent for iter 3 is 94.2643391818477 with log loss 0.1583330661727306
+ 
+Running iter 4
+ 
+Denoising the images
+done denoising
+Pulling index 3 from previous runs
+Training percent for iter 4 is 98.21280133000832 with log loss 0.06767347621664108
+Testing percent for iter 4 is 93.76558604977672 with log loss 0.16371517058025276
+ 
+Running iter 5
+ 
+Denoising the images
+done denoising
+Pulling index 4 from previous runs
+Training percent for iter 5 is 95.59434746467166 with log loss 0.09738103424509366
+Testing percent for iter 5 is 92.76807981536275 with log loss 0.18270938436586662
+ 
+Running iter 6
+ 
+Denoising the images
+done denoising
+Pulling index 5 from previous runs
+Training percent for iter 6 is 94.47215295095594 with log loss 0.13133942929784753
+Testing percent for iter 6 is 93.51620949117323 with log loss 0.18502696999290638
+ 
+Running iter 7
+ 
+Denoising the images
+done denoising
+Pulling index 6 from previous runs
+Training percent for iter 7 is 96.5502909343637 with log loss 0.1025898848673451
+Testing percent for iter 7 is 93.01745637396624 with log loss 0.14970452020739083
+ 
+Running iter 8
+ 
+Denoising the images
+done denoising
+Pulling index 7 from previous runs
+Training percent for iter 8 is 96.67497921366545 with log loss 0.09937243929081724
+Testing percent for iter 8 is 93.76558606464071 with log loss 0.17274900163498305
+ 
+Running iter 9
+ 
+Denoising the images
+done denoising
+Pulling index 8 from previous runs
+Training percent for iter 9 is 96.34247713552746 with log loss 0.08743021595705973
+Testing percent for iter 9 is 94.01496260838022 with log loss 0.17572950930369466
+ 
+Running iter 10
+ 
+Denoising the images
+done denoising
+Pulling index 9 from previous runs
+Training percent for iter 10 is 95.42809642064799 with log loss 0.11114248445107357
+Testing percent for iter 10 is 93.51620949117323 with log loss 0.1668224639057221
+ 
+Running iter 11
+ 
+Denoising the images
+done denoising
+Train on 2406 samples, validate on 401 samples
+Epoch 1/70
+257s - loss: 7.3454 - acc: 0.5187 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 2/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 3/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 4/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 5/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 6/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 7/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 8/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 9/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 10/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 11/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 12/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 13/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 14/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 15/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 16/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 17/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 18/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 19/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 20/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 21/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 22/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 23/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 24/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 25/70
+257s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 26/70
+256s - loss: 7.6370 - acc: 0.5262 - val_loss: 7.3556 - val_acc: 0.5436
+Epoch 27/70

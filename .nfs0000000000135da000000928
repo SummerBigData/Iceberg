@@ -237,26 +237,26 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# KERAS NEURAL NETWORK
 
 	# Get or make the model. Need a different model for each trimsize
-	if os.path.exists('models/iceModel' + str(imgsize)) and ind!=0 and ind!=50: #and ind!=100:
+	if os.path.exists('models/iceModel' + str(imgsize)) and ind!=0 and ind!=50 and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
 	else:
 		model = getCNN(imgsize)
 		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
-	#if os.path.exists(saveStr):
-	#	print 'Pulling index', ind, 'from previous runs'
-	#	model.load_weights(saveStr)
+	if os.path.exists(saveStr):
+		print 'Pulling index', ind, 'from previous runs'
+		model.load_weights(saveStr)
 	
-	#else:
-	callbacks = get_callbacks(filepath=saveStr, patience=80)
+	else:
+		callbacks = get_callbacks(filepath=saveStr, patience=80)
 		# Fit the model
-	model.fit(xtr, ytr,
-		batch_size=bsize,
-		epochs=epo,
-		verbose=2,
-		validation_data=(xte, yte),
-		callbacks=callbacks)
+		model.fit(xtr, ytr,
+			batch_size=bsize,
+			epochs=epo,
+			verbose=2,
+			validation_data=(xte, yte),
+			callbacks=callbacks)
 
 	# evaluate the model
 	model.load_weights(saveStr)

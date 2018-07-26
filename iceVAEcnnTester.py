@@ -196,32 +196,16 @@ decoder = Model(latent_inputs, outputs, name='decoder')
 outputs = decoder(encoder(inputs)[2])
 vae = Model(inputs, outputs, name='vae_mlp')
 print 'inp, outp', Flatten()(inputs).shape, outputs.shape,
-reconstruction_loss = mse(Flatten()(inputs) , Flatten()(outputs))
+reconstruction_loss = mse(Flatten()(inputs) , Flatten()(outputs))*75*75*3
 #reconstruction_loss = np.sum(np.sum(reconstruction_loss, axis = 1), axis = 2) / (75.0**2)
 kl_loss = 1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)
 kl_loss = K.sum(kl_loss, axis=-1)
 kl_loss *= -0.5
 vae_loss = K.mean(reconstruction_loss + kl_loss)
-print 'print 2', reconstruction_loss.shape, kl_loss.shape
 vae.add_loss(vae_loss)
 vae.compile(optimizer='adam', loss=None)
 #vae.summary()
-'''
-# Load the models
-encoder = load_model('vaeModels/iceEncoder' + saveStr + '.hdf5')
-decoder = load_model('vaeModels/iceDecoder' + saveStr + '.hdf5')
-vae = load_model('vaeModels/iceVae' + saveStr + '.hdf5')
 
-reconstruction_loss = mse(Flatten()(inputs) , Flatten()(outputs))
-#reconstruction_loss = np.sum(np.sum(reconstruction_loss, axis = 1), axis = 2) / (75.0**2)
-kl_loss = 1 + z_log_var - K.square(z_mean) - K.exp(z_log_var)
-kl_loss = K.sum(kl_loss, axis=-1)
-kl_loss *= -0.5
-vae_loss = K.mean(reconstruction_loss + kl_loss)* g.f2
-print 'print 2', reconstruction_loss.shape, kl_loss.shape
-vae.add_loss(vae_loss)
-vae.compile(optimizer='adam', loss=None)
-'''
 vae.load_weights('vaeWeights/'+'iceVAEcnn25Bsize128.hdf5')
 
 #weight_path = 'vaeWeights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
