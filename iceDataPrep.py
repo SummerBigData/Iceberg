@@ -352,6 +352,21 @@ def augmentPCA(xtr, nComp):
 	xtrT = xtrT.reshape((xtr.shape[0], nComp*3))
 	return xtrT, xtrTT
 
+
+def filterHessian(xtr):
+	from skimage.filters import frangi, hessian
+	xtrHess = xtr
+	for i in range(xtr.shape[0]):
+		_, min0, max0 = Norm(xtr[i, :, :, 0], 0, 1)
+		_, min1, max1 = Norm(xtr[i, :, :, 1], 0, 1)
+		avgMin = (min0 + min1) / 2.0 
+		avgMax = (max0 + max1) / 2.0
+
+		hessImg = hessian(xtr[i, :, :, 2], beta1 = 0.05)
+		xtrHess[i, :, :, 2], _, _ = Norm(hessImg, avgMin, avgMax)
+
+	return xtrHess
+
 def augmentFlip(xtr, ytr):
 	import cv2 #as cv
 	# Prepare the arrays that will hold the images

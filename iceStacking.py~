@@ -23,7 +23,7 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn0flip0iters5.csv'
-saveStr = 'submits/subSinPredWAvging7-23dn0flip0iters5.csv'
+saveStr = 'submits/subCosPredWAvging7-23dn0flip0iters5.csv'
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
@@ -105,12 +105,12 @@ unlab, name = grabUnlab()
 bestPred = ReadSubmit(csvStr)
 
 #pullPred = PullAcc(bestPred, 0.98)
-sinPred = np.sin( (bestPred - 0.5)*np.pi) * 0.5 + 0.5
+cosPred = np.cos( (bestPred - 0.5)*np.pi) * 0.5 + 0.5
 
-print bestPred[0:5]
-print sinPred[0:5]
+print bestPred[0:8]
+print cosPred[0:8]
 
-#SavePred(sinPred, name)
+#SavePred(cosPred, name)
 
 print 'Done'
 

@@ -23,7 +23,7 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-avgCsvStr = 'submits/subWAvging7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+avgCsvStr = 'submits/subnewModWAvging7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
 
 pseuCsvStr = 'submits/subpseuWAvgingUnsup7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
 
@@ -59,11 +59,12 @@ def WeightedAvg(pred, weight):
 	wAvgPred = np.sum(pred, axis = 0) / ( np.sum(weightArr) + 0.0)
 	return wAvgPred
 
-def SavePred(pred, name):
+def SavePred(pred, name, string):
 	submission = pd.DataFrame()
 	submission['id']= name
 	submission['is_iceberg']= pred.reshape((pred.shape[0]))
-	submission.to_csv(pseuCsvStr, index=False)
+	csvStr = 'submits/sub'+string+'7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+	submission.to_csv(csvStr, index=False)
 
 def runCnns(xtr, ytr, xte, yte, unlab, iterplus):
 	# Create arrays to store the results
@@ -82,7 +83,9 @@ def runCnns(xtr, ytr, xte, yte, unlab, iterplus):
 
 	# We use the average prediction, weighted by the test score
 	avgPred = WeightedAvg(pred, 1.0/scores[:, 1, 0])
-	return avgPred
+
+	medPred = np.median(pred, axis = 0)
+	return avgPred, medPred
 
 def runAE(xtr, ytr, xte, yte, unlab, flip):
 	
@@ -167,12 +170,20 @@ def GenPseudoDat(string, xtr, ytr, unlab):
 # Grab data
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
+
+xtr = iceDataPrep.filterHessian(xtr)
+xte = iceDataPrep.filterHessian(xte)
+
+pred,scores=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, 100)
+
+
+
 '''
 xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
 xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
 unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
 '''
-avgPred = runCnns(xtr, ytr, xte, yte, unlab, 100)
+#avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 0)
 
 #prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 
@@ -195,10 +206,12 @@ for i in range(18):
 
 ShowSquare(plotimg)
 '''
-
+'''
 # Save the prediction
-SavePred(avgPred, name)
+SavePred(avgPred, name, 'avg')
 
+SavePred(medPred, name, 'med')
+'''
 print 'Done'
 
 

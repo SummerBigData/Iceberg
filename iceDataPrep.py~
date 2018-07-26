@@ -340,15 +340,32 @@ def augmentPCA(xtr, nComp):
 
 	nDim = int(sqrt(nComp))
 	#xtrT = np.zeros((xtr.shape[0], nDim, nDim, 3))
-	xtrT = np.zeros(( xtr.shape[0],nComp*3))
+	xtrT = np.zeros(( xtr.shape[0], nDim, nDim, 3))
 	xtrTT = np.zeros(xtr.shape)
 
 	for i in range(3):
-		xtrT[:, :, i] = pca[i].transform(xtrFlat[:, :, i])
-		temp2 = pca[i].inverse_transform(xtrT[:, :, i])
+		temp1 = pca[i].transform(xtrFlat[:, :, i])
+		xtrT[:, :, :, i] = temp1.reshape((xtr.shape[0], nDim, nDim))
+		temp2 = pca[i].inverse_transform(temp1)
 		xtrTT[:, :, :, i] = temp2.reshape((xtr.shape[0], xtr.shape[1], xtr.shape[1]))
-
+	
+	xtrT = xtrT.reshape((xtr.shape[0], nComp*3))
 	return xtrT, xtrTT
+
+
+def filterHessian(xtr):
+	xtrHess = xtr
+
+	for i in range(xtr.shape[0]):
+		_, min0, max0 = Norm(xtr[i, :, :, 0], 0, 1)
+		_, min1, max1 = Norm(xtr[i, :, :, 1], 0, 1)
+		avgMin = (min0 + min1) / 2.0 
+		avgMax = (max0 + max1) / 2.0
+
+		hessImg = hessian(xtr[i, :, :, 2], beta1 = 0.05)
+		xtrHess[i, :, :, 2], _, _ = Norm(hessImg, avgMin, avgMax)
+
+	return xtrHess
 
 def augmentFlip(xtr, ytr):
 	import cv2 #as cv

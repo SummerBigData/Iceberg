@@ -23,7 +23,7 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn0flip0iters5.csv'
-saveStr = 'submits/subSinPredWAvging7-23dn0flip0iters5.csv'
+saveStr = 'submits/subCosPredWAvging7-23dn0flip0iters5.csv'
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
 
@@ -100,17 +100,17 @@ def PullAcc(bestPred, threshold):
 
 # Grab data
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
-unlab, name = grabUnlab()
+#unlab, name = grabUnlab()
 
-bestPred = ReadSubmit(csvStr)
-
+#bestPred = ReadSubmit(csvStr)
+bestPred = np.array([0, 0.01, 0.03, 0.05, 0.07, 0.25, 0.5, 0.75, 0.93, 0.95, 0.97, 0.99, 1])
 #pullPred = PullAcc(bestPred, 0.98)
-sinPred = np.sin( (bestPred - 0.5)*np.pi) * 0.5 + 0.5
+cosPred = np.cos( (bestPred - 0.5)*np.pi) * 0.5 + 0.5
 
-print bestPred[0:5]
-print sinPred[0:5]
+print bestPred[0:8]
+print cosPred[0:8]
 
-SavePred(sinPred, name)
+#SavePred(cosPred, name)
 
 print 'Done'
 

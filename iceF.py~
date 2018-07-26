@@ -89,6 +89,52 @@ def getCNN(imgsize):
 	model.compile(loss='binary_crossentropy',optimizer=mypotim,metrics=['accuracy'])
 	model.summary()
 	return model
+def getcnn(imgsize):
+	#Building the model
+	gmodel=Sequential()
+	#Conv Layer 1
+	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu', input_shape=(imgsize,imgsize,3)))
+	gmodel.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+	gmodel.add(Dropout(0.2))
+	
+	#Conv Layer 2
+	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
+	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	gmodel.add(Dropout(0.2))
+
+	#Conv Layer 3
+	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
+	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	gmodel.add(Dropout(0.2))
+	
+	#Conv Layer 4
+	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
+	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	gmodel.add(Dropout(0.2))
+
+	#Flatten the data for upcoming dense layers
+	gmodel.add(Flatten())
+	
+	#Dense Layers
+	gmodel.add(Dense(512))
+	gmodel.add(Activation('relu'))
+	gmodel.add(Dropout(0.2))
+
+	#Dense Layer 2
+	gmodel.add(Dense(256))
+	gmodel.add(Activation('relu'))
+	gmodel.add(Dropout(0.2))
+	
+	#Sigmoid Layer
+	gmodel.add(Dense(1))
+	gmodel.add(Activation('sigmoid'))
+
+	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	gmodel.compile(loss='binary_crossentropy',
+		optimizer=mypotim,
+		metrics=['accuracy'])
+	gmodel.summary()
+	return gmodel
 
 
 def getCNNpca(imgsize):
@@ -219,7 +265,7 @@ TRb1, TRb2, TRname, TRlabel, TRangle, TRonlyAngle = DataSort(train)
 def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# Use a seed based on the index
 	np.random.seed(ind)
-
+	
 	epo = 70
 	bsize = 100
 	imgsize = xtr.shape[1]
@@ -237,26 +283,26 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# KERAS NEURAL NETWORK
 
 	# Get or make the model. Need a different model for each trimsize
-	if os.path.exists('models/iceModel' + str(imgsize)) and ind!=0 and ind!=50): #and ind!=100:
+	if os.path.exists('models/iceModel' + str(imgsize)):# and ind!=0 and ind!=50: #and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
 	else:
-		model = getCNN(imgsize)
+		model = getcnn(imgsize)
 		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
-	#if os.path.exists(saveStr):
-	#	print 'Pulling index', ind, 'from previous runs'
-	#	model.load_weights(saveStr)
+	if os.path.exists(saveStr):
+		print 'Pulling index', ind, 'from previous runs'
+		model.load_weights(saveStr)
 	
-	#else:
-	callbacks = get_callbacks(filepath=saveStr, patience=80)
+	else:
+		callbacks = get_callbacks(filepath=saveStr, patience=80)
 		# Fit the model
-	model.fit(xtr, ytr,
-		batch_size=bsize,
-		epochs=epo,
-		verbose=2,
-		validation_data=(xte, yte),
-		callbacks=callbacks)
+		model.fit(xtr, ytr,
+			batch_size=bsize,
+			epochs=epo,
+			verbose=2,
+			validation_data=(xte, yte),
+			callbacks=callbacks)
 
 	# evaluate the model
 	model.load_weights(saveStr)
