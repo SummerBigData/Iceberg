@@ -123,3 +123,5 @@ Epoch 55/150
 Epoch 56/150
 156s - loss: 0.1473 - acc: 0.9298 - val_loss: 0.2452 - val_acc: 0.9052
 Epoch 57/150
+156s - loss: 0.1298 - acc: 0.9364 - val_loss: 0.2487 - val_acc: 0.9127
+Epoch 58/150

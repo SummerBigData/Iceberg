@@ -15,3 +15,7 @@ Epoch 3/300
 Epoch 4/300
 86s - loss: 0.5982 - acc: 0.6342 - val_loss: 0.5908 - val_acc: 0.6683
 Epoch 5/300
+86s - loss: 0.5752 - acc: 0.6708 - val_loss: 0.5698 - val_acc: 0.6683
+Epoch 6/300
+87s - loss: 0.5642 - acc: 0.6808 - val_loss: 0.5583 - val_acc: 0.6783
+Epoch 7/300
