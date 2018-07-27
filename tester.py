@@ -3,8 +3,9 @@
 import numpy as np
 import iceDataPrep
 #from skimage.data import camera
-from skimage.filters import frangi, hessian
-
+from skimage.filters import frangi, hessian, gaussian
+from skimage.morphology import disk
+from skimage.filters.rank import median
 import matplotlib.pyplot as plt
 
 
@@ -38,31 +39,70 @@ def Norm(mat, nMin, nMax):
 	normMat = ((mat - Min) / (Max - Min)) * (nMax - nMin) + nMin
 	return normMat, Min, Max
 
+def ReadSubmit(string):
+	dat = np.genfromtxt(string, delimiter=',')
+	labels = dat[1:, 1]
+	return labels
+
+def plotCol( x, xstr, y, ystr, label):
+	#z_mean, _, _ = encoder.predict(dat, batch_size=g.bsize)
+	plt.figure(figsize=(10, 10))
+    	plt.scatter(x, y, c=label, s=4)
+    	plt.colorbar()
+    	plt.xlabel(xstr)
+    	plt.ylabel(ystr)
+    	#plt.savefig('results/VAEhlCnnAllDrop.png')
+    	plt.show()
+
 
 
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
+ypred = np.genfromtxt('iceBinPredtr0dn10.out', delimiter=','
+xtr = iceDataPrep.filterHessian(xtr, 8)
+#xtr,_,_ = Norm(xtr, 0, 1)
+#yunlab = ReadSubmit('submits/subWAvging7-23dn0flip0iters5.csv')
 
-xtr = iceDataPrep.filterHessian(xtr)
 
 
+# Sum over the image dimensions
+sumHess = np.sum(xtr[:,:,:,2], axis=1)
+sumHess = np.sum(sumHess, axis=1)
+
+plotCol( sumHess, 'Hessian Sum', ytr, 'Y value', np.zeros((ytr.shape)) )
 
 
-imgs = np.zeros((30, 75, 75))
+'''
+numPics = 15
+numChans = 4
 
-for i in range(10):
+imgs = np.zeros((numChans*numPics, 75, 75))
 
-	imgs[i*3, :, :] = xtr[i, :, :, 0]
-	imgs[i*3+1, :, :] = xtr[i, :, :, 1]
-	imgs[i*3+2, :, :] = xtr[i, :, :, 2]
+for i in range(numPics):
 
-picAll = np.zeros((75*3, 1))
-for i in range(10):
-	pici = np.concatenate( (imgs[0+3*i], imgs[1+3*i], imgs[2+3*i]), axis = 0)
+	gauss = median(xtr[i, :, :, 2], disk(2))
+	#markers = ndi.label(markers)[0]
+
+
+	gauss, _, _ = Norm(gauss, np.amin(xtr[i, :, :, 2]), np.amax(xtr[i, :, :, 1]))
+
+	imgs[i*numChans, :, :] = xtr[i, :, :, 0]
+	imgs[i*numChans+1, :, :] = xtr[i, :, :, 1]
+	imgs[i*numChans+2, :, :] = xtr[i, :, :, 2]
+	imgs[i*numChans+3, :, :] = gauss
+
+picAll = np.zeros((75*numChans, 1))
+for i in range(numPics):
+	picj = np.zeros((numChans, xtr.shape[1], xtr.shape[1]))
+	for j in range(numChans):
+		picj[j] = imgs[j+numChans*i]
+	pici = np.zeros((0, xtr.shape[1]))
+	for j in range(numChans):
+		pici = np.concatenate( (pici, picj[j]), axis = 0)
 	picAll = np.concatenate( (picAll, pici), axis = 1)
 	
 imgplot = plt.imshow(picAll, cmap="binary", interpolation='none') 
 plt.show()
-		
+'''	
 
 
 

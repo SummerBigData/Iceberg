@@ -129,7 +129,7 @@ def getcnn(imgsize):
 	gmodel.add(Dense(1))
 	gmodel.add(Activation('sigmoid'))
 
-	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	mypotim=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 	gmodel.compile(loss='binary_crossentropy',
 		optimizer=mypotim,
 		metrics=['accuracy'])
@@ -229,7 +229,7 @@ def getAE():
 	decoderL6 = AE.layers[-1](decoderL5)
 	decoder = Model(encodedInputs, decoderL6)
 	'''
-	optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	optimizer = Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 	AE.compile(optimizer=optimizer, loss='mse', metrics=["accuracy"])
 	return AE, encoder
 
@@ -238,7 +238,7 @@ def getAE():
 def get_callbacks(filepath, patience=8):	
 	es = EarlyStopping('val_loss', patience=patience, mode="min")
 	msave = ModelCheckpoint(filepath, monitor='val_loss',save_best_only=True,save_weights_only=True)
-	reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=0.001)
+	reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=10,min_lr=0.0005)
 	return [es, msave, reduce_lr]
 
 
@@ -266,7 +266,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# Use a seed based on the index
 	np.random.seed(ind)
 	
-	epo = 70
+	epo = 300
 	bsize = 100
 	imgsize = xtr.shape[1]
 	saveStr = 'iceunsup2/Epo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
@@ -290,9 +290,9 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
-	#if os.path.exists(saveStr):
-	#	print 'Pulling index', ind, 'from previous runs'
-	#	model.load_weights(saveStr)
+	if os.path.exists(saveStr):
+		print 'Pulling index', ind, 'from previous runs'
+		model.load_weights(saveStr)
 	
 	#else:
 	callbacks = get_callbacks(filepath=saveStr, patience=80)
@@ -326,7 +326,7 @@ def cnnPCA(xtr, pcatr, ytr, xte, pcate, yte, unlab, ind):
 # Use a seed based on the index
 	np.random.seed(ind)
 
-	epo = 70
+	epo = 150
 	bsize = 100
 	imgsize = xtr.shape[1]
 	saveStr = 'iceunsup2/cnnPCAEpo'+str(epo)+'Bsize'+str(bsize)+'ind'+str(ind)

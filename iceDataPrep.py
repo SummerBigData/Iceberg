@@ -353,7 +353,7 @@ def augmentPCA(xtr, nComp):
 	return xtrT, xtrTT
 
 
-def filterHessian(xtr):
+def filterHessian(xtr, layers):
 	from skimage.filters import frangi, hessian
 	xtrHess = xtr
 	for i in range(xtr.shape[0]):
@@ -361,8 +361,12 @@ def filterHessian(xtr):
 		_, min1, max1 = Norm(xtr[i, :, :, 1], 0, 1)
 		avgMin = (min0 + min1) / 2.0 
 		avgMax = (max0 + max1) / 2.0
-
-		hessImg = hessian(xtr[i, :, :, 2], beta1 = 0.05)
+		
+		hessImg = np.zeros((layers, xtr.shape[1], xtr.shape[1]))
+		for j in range(layers):
+			hessImg[j] = hessian(xtr[i, :, :, 2], beta1 = 0.02*(2**j) )
+		
+		hessImg = np.sum(hessImg, axis=0)
 		xtrHess[i, :, :, 2], _, _ = Norm(hessImg, avgMin, avgMax)
 
 	return xtrHess

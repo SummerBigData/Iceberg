@@ -171,11 +171,12 @@ def GenPseudoDat(string, xtr, ytr, unlab):
 xtr, ytr, atr, xte, yte, ate = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 
-xtr = iceDataPrep.filterHessian(xtr)
-xte = iceDataPrep.filterHessian(xte)
+xtr = iceDataPrep.filterHessian(xtr, 8)
+xte = iceDataPrep.filterHessian(xte, 8)
+unlab = iceDataPrep.filterHessian(unlab, 8)
+
 
 pred,scores=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, 125)
-
 
 
 '''
@@ -183,8 +184,9 @@ xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
 xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
 unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
 '''
-#avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 0)
-
+'''
+avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 0)
+'''
 #prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 
 #xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
@@ -206,12 +208,16 @@ for i in range(18):
 
 ShowSquare(plotimg)
 '''
-'''
+
 # Save the prediction
 SavePred(avgPred, name, 'avg')
 
 SavePred(medPred, name, 'med')
-'''
+
+print 'Training percent for iter', g.iters, 'is', scores[ 0, 1]*100, 'with log loss', scores[ 0, 0]
+print 'Testing percent for iter', g.iters, 'is', scores[ 1, 1]*100, 'with log loss', scores[ 1, 0]
+
+
 print 'Done'
 
 
