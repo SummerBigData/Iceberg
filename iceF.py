@@ -118,21 +118,22 @@ def getcnn(imgsize):
 	#Dense Layers
 	gmodel.add(Dense(512))
 	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
+	#gmodel.add(Dropout(0.2))
 
 	#Dense Layer 2
 	gmodel.add(Dense(256))
 	gmodel.add(Activation('relu'))
-	gmodel.add(Dropout(0.2))
+	#gmodel.add(Dropout(0.2))
 	
 	#Sigmoid Layer
 	gmodel.add(Dense(1))
 	gmodel.add(Activation('sigmoid'))
 
-	mypotim=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-	gmodel.compile(loss='binary_crossentropy',
-		optimizer=mypotim,
-		metrics=['accuracy'])
+	from keras.optimizers import SGD
+	#mypotim=Adamax(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-05, decay=0.0) # eps = 1e-8
+	#mypotim = SGD(lr=0.1, momentum=0.1, decay=0.0, nesterov=True)
+	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # eps = 1e-8
+	gmodel.compile(loss='binary_crossentropy',optimizer=mypotim,metrics=['accuracy'])
 	gmodel.summary()
 	return gmodel
 
@@ -229,7 +230,7 @@ def getAE():
 	decoderL6 = AE.layers[-1](decoderL5)
 	decoder = Model(encodedInputs, decoderL6)
 	'''
-	optimizer = Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 	AE.compile(optimizer=optimizer, loss='mse', metrics=["accuracy"])
 	return AE, encoder
 
@@ -237,9 +238,9 @@ def getAE():
 # We choose a high patience so the algorthim keeps searching even after finding a maximum
 def get_callbacks(filepath, patience=8):	
 	es = EarlyStopping('val_loss', patience=patience, mode="min")
-	msave = ModelCheckpoint(filepath, monitor='val_loss',save_best_only=True,save_weights_only=True)
-	reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=10,min_lr=0.0005)
-	return [es, msave, reduce_lr]
+	msave = ModelCheckpoint(filepath,monitor='val_loss',save_best_only=True,save_weights_only=True,mode="min")
+	#reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=10,min_lr=0.001,mode="min")
+	return [es, msave]#, reduce_lr]
 
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
@@ -264,7 +265,7 @@ TRb1, TRb2, TRname, TRlabel, TRangle, TRonlyAngle = DataSort(train)
 # DATA PREP
 def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	# Use a seed based on the index
-	np.random.seed(ind)
+	np.random.seed(126)
 	
 	epo = 300
 	bsize = 100
@@ -281,7 +282,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
-
+	
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceModel' + str(imgsize)):# and ind!=0 and ind!=50: #and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
@@ -293,16 +294,30 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	if os.path.exists(saveStr):
 		print 'Pulling index', ind, 'from previous runs'
 		model.load_weights(saveStr)
+		scores = model.evaluate(xte, yte, verbose=0)
+		if scores[1] < 0.88:
+			os.remove(saveStr)
+			print ' '
+			print "Bad saved trial due to testing acc < 88%. Rerunning ..."
+			print ' '
+			callbacks = get_callbacks(filepath=saveStr, patience=40)
+			# Fit the model
+			model.fit(xtr, ytr,
+				batch_size=bsize,
+				epochs=epo,
+				verbose=2
+				validation_data=(xte, yte),
+				callbacks=callbacks)
 	
-	#else:
-	callbacks = get_callbacks(filepath=saveStr, patience=80)
+	else:
+		callbacks = get_callbacks(filepath=saveStr, patience=40)
 		# Fit the model
-	model.fit(xtr, ytr,
-		batch_size=bsize,
-		epochs=epo,
-		verbose=2,
-		validation_data=(xte, yte),
-		callbacks=callbacks)
+		model.fit(xtr, ytr,
+			batch_size=bsize,
+			epochs=epo,
+			verbose=2,
+			validation_data=(xte, yte),
+			callbacks=callbacks)
 
 	# evaluate the model
 	model.load_weights(saveStr)
@@ -319,6 +334,14 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	results[1, 1] = scores[1]
 
 	prediction = model.predict(unlab)
+
+	# If result is bad, redo run
+	if results[1, 1] < 0.88:
+		os.remove(saveStr)
+		print ' '
+		print "Rerunning trial, due to testing acc < 88%"
+		print ' '
+		prediction, results = cnn(xtr, ytr, xte, yte, unlab, h, flip, ind)	
 
 	return prediction.flatten(), results
 

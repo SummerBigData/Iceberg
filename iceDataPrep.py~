@@ -212,11 +212,9 @@ def dataprep():
 	#x = FixedNorm(x, 0, 1)
 	xtr = x[:1203,:,:,:]
 	xte = x[1203:,:,:,:]
-	atr = TRonlyAngle[:1203]
-	ate = TRonlyAngle[1203:]
 	ytr = TRlabel[:1203]
 	yte = TRlabel[1203:]
-	return xtr, ytr, atr, xte, yte, ate
+	return xtr, ytr, xte, yte
 
 def DataSortTest(dat):
 
@@ -265,8 +263,6 @@ def dataprepAngle():
 	ytr = TRlabel[:1203].astype(float)
 	yte = TRlabel[1203:].astype(float)
 	return xtr, ytr, atr, xte, yte, ate
-
-
 
 
 def denoise(x,H):
@@ -364,7 +360,7 @@ def filterHessian(xtr, layers):
 		
 		hessImg = np.zeros((layers, xtr.shape[1], xtr.shape[1]))
 		for j in range(layers):
-			hessImg[j] = hessian(xtr[i, :, :, 2], beta1 = 0.01*(2**j) )
+			hessImg[j] = hessian(xtr[i, :, :, 2], beta1 = 0.02*(2**j) )
 		
 		hessImg = np.sum(hessImg, axis=0)
 		xtrHess[i, :, :, 2], _, _ = Norm(hessImg, avgMin, avgMax)

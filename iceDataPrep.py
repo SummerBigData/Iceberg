@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 #import matplotlib.pyplot as plt
 
-np.random.seed(7)
+#np.random.seed(7)
 
 
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
@@ -212,11 +212,9 @@ def dataprep():
 	#x = FixedNorm(x, 0, 1)
 	xtr = x[:1203,:,:,:]
 	xte = x[1203:,:,:,:]
-	atr = TRonlyAngle[:1203]
-	ate = TRonlyAngle[1203:]
 	ytr = TRlabel[:1203]
 	yte = TRlabel[1203:]
-	return xtr, ytr, atr, xte, yte, ate
+	return xtr, ytr, xte, yte
 
 def DataSortTest(dat):
 
@@ -265,8 +263,6 @@ def dataprepAngle():
 	ytr = TRlabel[:1203].astype(float)
 	yte = TRlabel[1203:].astype(float)
 	return xtr, ytr, atr, xte, yte, ate
-
-
 
 
 def denoise(x,H):
