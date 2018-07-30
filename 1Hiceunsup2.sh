@@ -1,5 +1,5 @@
-#PBS -N runitesth0fl0iters0_7-30
-#PBS -l walltime=10:00:00
+#PBS -N runiHessh10fl0iters10_7-30
+#PBS -l walltime=40:00:00
 #PBS -l nodes=1:ppn=1
 #PBS -l mem=32GB
 #PBS -j oe
@@ -21,4 +21,4 @@ source activate local
 
 #python -u icecnn.py $PBS_ARRAYID >& outIceCnn7-2_$PBS_ARRAYID.log
 # h, flip, iters, pseusize
-python -u iceunsup2.py 0 1 >& outitesth0fl0iters0_7-30.log
+python -u iceunsup2.py 10 10 >& outiHessh10fl0iters10_7-30.log

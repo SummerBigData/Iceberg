@@ -196,22 +196,22 @@ def getcnn(imgsize):
 	#Building the model
 	gmodel=Sequential()
 	#Conv Layer 1
-	gmodel.add(Conv2D(64,kernel_size=(3, 3),activation='relu',input_shape=(imgsize,imgsize,3),kernel_initialize=init() ))
+	gmodel.add(Conv2D(64,kernel_size=(3, 3),activation='relu',input_shape=(imgsize,imgsize,3),kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 	
 	#Conv Layer 2
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initialize=init() ))
+	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 
 	#Conv Layer 3
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initialize=init() ))
+	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 	
 	#Conv Layer 4
-	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu',kernel_initialize=init() ))
+	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 
@@ -219,17 +219,17 @@ def getcnn(imgsize):
 	gmodel.add(Flatten())
 	
 	#Dense Layers
-	gmodel.add(Dense(512,kernel_initialize=init() ))
+	gmodel.add(Dense(512,kernel_initializer=init() ))
 	gmodel.add(Activation('relu'))
 	#gmodel.add(Dropout(0.2))
 
 	#Dense Layer 2
-	gmodel.add(Dense(256,kernel_initialize=init() ))
+	gmodel.add(Dense(256,kernel_initializer=init() ))
 	gmodel.add(Activation('relu'))
 	#gmodel.add(Dropout(0.2))
 	
 	#Sigmoid Layer
-	gmodel.add(Dense(1,kernel_initialize=init() ))
+	gmodel.add(Dense(1,kernel_initializer=init() ))
 	gmodel.add(Activation('sigmoid'))
 	#from keras.optimizers import SGD
 	#mypotim=Adamax(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-05, decay=0.0) # eps = 1e-8
@@ -243,8 +243,8 @@ def getcnn(imgsize):
 def get_callbacks(filepath, patience=8):	
 	es = EarlyStopping('val_loss', patience=patience, mode="min")
 	msave = ModelCheckpoint(filepath,monitor='val_loss',save_best_only=True,save_weights_only=True)
-	#reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=10,min_lr=0.001,mode="min")
-	return [es, msave]#, reduce_lr]
+	reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=7,min_lr=0.0005,mode="min")
+	return [es, msave, reduce_lr]
 
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
@@ -286,27 +286,26 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
-	'''
+	
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceModel' + str(imgsize)):# and ind!=0 and ind!=50: #and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
 	else:
-	'''
-	model = getcnn(imgsize)
-	os.remove('models/iceModel' + str(imgsize) )
-	model.save('models/iceModel' + str(imgsize) )
+		model = getcnn(imgsize)
+		#os.remove('models/iceModel' + str(imgsize) )
+		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
 	if os.path.exists(saveStr):
 		print 'Pulling index', ind, 'from previous runs'
 		model.load_weights(saveStr)
 		scores = model.evaluate(xte, yte, verbose=0)
-		if scores[1] < 0.88:
+		if scores[1] < 0.90:
 			os.remove(saveStr)
 			print ' '
 			print "Bad saved trial due to testing acc < 88%. Rerunning ..."
 			print ' '
-			callbacks = get_callbacks(filepath=saveStr, patience=40)
+			callbacks = get_callbacks(filepath=saveStr, patience=80)
 			# Fit the model
 			model.fit(xtr, ytr,
 				batch_size=bsize,
@@ -342,7 +341,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	prediction = model.predict(unlab)
 
 	# If result is bad, redo run
-	if results[1, 1] < 0.88:
+	if results[1, 1] < 0.90:
 		os.remove(saveStr)
 		print ' '
 		print "Rerunning trial, due to testing acc < 88%"

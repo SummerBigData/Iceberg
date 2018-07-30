@@ -165,14 +165,11 @@ def VarNorm(xtr, xte, unlab):
 	#print 'Min Max', np.amin(xtr), np.amax(xtr)
 	#print 'Variance', np.std(xtr)**2
 	Range /= np.std(xtr)
-
 	xtrV, _, _ = Norm(xtr, 0, Range)
 	xteV, _, _ = Norm(xte, 0, Range)
 	unlabV, _, _v=Norm(unlab, 0, Range)
-	
 	#print 'Min Max', np.amin(xtrV), np.amax(xtrV)
 	#print 'Variance', np.std(xtrV)**2
-
 	return xtrV, xteV, unlabV
 
 	
@@ -188,9 +185,9 @@ xtr, ytr, xte, yte = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 xtr, xte, unlab = VarNorm(xtr, xte, unlab)
 
-#xtr = iceDataPrep.filterHessian(xtr, 8)
-#xte = iceDataPrep.filterHessian(xte, 8)
-#unlab = iceDataPrep.filterHessian(unlab, 8)
+xtr = iceDataPrep.filterHessian(xtr, 8)
+xte = iceDataPrep.filterHessian(xte, 8)
+unlab = iceDataPrep.filterHessian(unlab, 8)
 
 avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
 

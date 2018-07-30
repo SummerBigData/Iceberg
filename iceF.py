@@ -243,8 +243,8 @@ def getcnn(imgsize):
 def get_callbacks(filepath, patience=8):	
 	es = EarlyStopping('val_loss', patience=patience, mode="min")
 	msave = ModelCheckpoint(filepath,monitor='val_loss',save_best_only=True,save_weights_only=True)
-	#reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=10,min_lr=0.001,mode="min")
-	return [es, msave]#, reduce_lr]
+	reduce_lr = ReduceLROnPlateau(monitor='val_loss',factor=0.2,patience=7,min_lr=0.0005,mode="min")
+	return [es, msave, reduce_lr]
 
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
@@ -286,27 +286,26 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
-	'''
+	
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceModel' + str(imgsize)):# and ind!=0 and ind!=50: #and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
 	else:
-	'''
-	model = getcnn(imgsize)
-	os.remove('models/iceModel' + str(imgsize) )
-	model.save('models/iceModel' + str(imgsize) )
+		model = getcnn(imgsize)
+		#os.remove('models/iceModel' + str(imgsize) )
+		model.save('models/iceModel' + str(imgsize) )
 	
 	# Get or do the run. No need to run things more than necessary, right?
 	if os.path.exists(saveStr):
 		print 'Pulling index', ind, 'from previous runs'
 		model.load_weights(saveStr)
 		scores = model.evaluate(xte, yte, verbose=0)
-		if scores[1] < 0.88:
+		if scores[1] < 0.90:
 			os.remove(saveStr)
 			print ' '
 			print "Bad saved trial due to testing acc < 88%. Rerunning ..."
 			print ' '
-			callbacks = get_callbacks(filepath=saveStr, patience=40)
+			callbacks = get_callbacks(filepath=saveStr, patience=80)
 			# Fit the model
 			model.fit(xtr, ytr,
 				batch_size=bsize,
@@ -316,7 +315,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 				callbacks=callbacks)
 	
 	else:
-		callbacks = get_callbacks(filepath=saveStr, patience=40)
+		callbacks = get_callbacks(filepath=saveStr, patience=80)
 		# Fit the model
 		model.fit(xtr, ytr,
 			batch_size=bsize,
@@ -342,7 +341,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	prediction = model.predict(unlab)
 
 	# If result is bad, redo run
-	if results[1, 1] < 0.88:
+	if results[1, 1] < 0.90:
 		os.remove(saveStr)
 		print ' '
 		print "Rerunning trial, due to testing acc < 88%"

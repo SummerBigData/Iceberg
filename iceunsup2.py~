@@ -188,9 +188,9 @@ xtr, ytr, xte, yte = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 xtr, xte, unlab = VarNorm(xtr, xte, unlab)
 
-#xtr = iceDataPrep.filterHessian(xtr, 8)
-#xte = iceDataPrep.filterHessian(xte, 8)
-#unlab = iceDataPrep.filterHessian(unlab, 8)
+xtr = iceDataPrep.filterHessian(xtr, 8)
+xte = iceDataPrep.filterHessian(xte, 8)
+unlab = iceDataPrep.filterHessian(unlab, 8)
 
 avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
 
