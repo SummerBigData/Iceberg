@@ -1,7 +1,7 @@
-#PBS -N runitesth0fl0iters0_7-30
-#PBS -l walltime=10:00:00
+#PBS -N runiCnn7-24woflip_dn$PBS_ARRAYIDtr0
+#PBS -l walltime=02:30:00
 #PBS -l nodes=1:ppn=1
-#PBS -l mem=32GB
+#PBS -l mem=16GB
 #PBS -j oe
 # uncomment if using qsub
 if [ -z "$PBS_O_WORKDIR" ] 
@@ -20,5 +20,5 @@ source activate local
 # This is the command the runs the python script
 
 #python -u icecnn.py $PBS_ARRAYID >& outIceCnn7-2_$PBS_ARRAYID.log
-# h, flip, iters, pseusize
-python -u iceunsup2.py 0 1 >& outitesth0fl0iters0_7-30.log
+
+python -u icecnn.py $PBS_ARRAYID 0  >& outiCnn7-24woflip_dn$PBS_ARRAYID.log

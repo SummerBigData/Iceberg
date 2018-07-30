@@ -7,7 +7,7 @@ import argparse
 import json
 import numpy as np
 import pandas as pd
-np.random.seed(7)
+#np.random.seed(7)
 
 
 #---------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES----------GLOBAL VARIABLES
@@ -77,8 +77,8 @@ def runCnns(xtr, ytr, xte, yte, unlab, iterplus):
 		print 'Running iter', i+1
 		print ' '
 		pred[i],scores[i]=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, i+iterplus)
-		print 'Training percent for iter', i+1, 'is', scores[i, 0, 1]*100, 'with log loss', scores[i, 0, 0]
-		print 'Testing percent for iter', i+1, 'is', scores[i, 1, 1]*100, 'with log loss', scores[i, 1, 0]
+		print 'Training percent for iter', i+1, 'is', scores[i,0,1]*100, 'with log loss', scores[i,0,0]
+		print 'Testing percent for iter', i+1, 'is', scores[i,1,1]*100, 'with log loss', scores[i,1,0]
 		print ' '
 
 	# We use the average prediction, weighted by the test score
@@ -160,6 +160,23 @@ def GenPseudoDat(string, xtr, ytr, unlab):
 	pseuxtr, pseuytr = iceDataPrep.shuffleData(pseuxtr, pseuytr)
 	return pseuxtr, pseuytr
 
+def VarNorm(xtr, xte, unlab):
+	Range = np.amax(xtr) - np.amin(xtr)
+	#print 'Min Max', np.amin(xtr), np.amax(xtr)
+	#print 'Variance', np.std(xtr)**2
+	Range /= np.std(xtr)
+
+	xtrV, _, _ = Norm(xtr, 0, Range)
+	xteV, _, _ = Norm(xte, 0, Range)
+	unlabV, _, _v=Norm(unlab, 0, Range)
+	
+	#print 'Min Max', np.amin(xtrV), np.amax(xtrV)
+	#print 'Variance', np.std(xtrV)**2
+
+	return xtrV, xteV, unlabV
+
+	
+	
 
 #----------STARTS HERE----------STARTS HERE----------STARTS HERE----------STARTS HERE
 
@@ -169,10 +186,13 @@ def GenPseudoDat(string, xtr, ytr, unlab):
 # Grab data
 xtr, ytr, xte, yte = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
+xtr, xte, unlab = VarNorm(xtr, xte, unlab)
 
 #xtr = iceDataPrep.filterHessian(xtr, 8)
 #xte = iceDataPrep.filterHessian(xte, 8)
 #unlab = iceDataPrep.filterHessian(unlab, 8)
+
+avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
 
 
 #pred,scores=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, 125)
@@ -182,11 +202,9 @@ unlab, name = grabUnlab()
 xtrT, xtrTT = iceDataPrep.augmentPCA(xtr, 25)
 xteT, xteTT = iceDataPrep.augmentPCA(xte, 25)
 unlabT, unlabTT = iceDataPrep.augmentPCA(unlab, 25)
+prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 '''
 
-avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
-
-#prediction, results = iceF.cnnPCA(xtr, xtrT, ytr, xte, xteT, yte, unlab, 0)
 
 #xtrPred, unlabPred = runAE(xtr, ytr, xte, yte, unlab, g.flip)
 '''
