@@ -48,45 +48,38 @@ def ShowSquare(band1, band2):
 
 
 def getCNN(imgsize):
-	#Building the model
-	model=Sequential()
+	from keras.layers.normalization import BatchNormalization
+	#from keras import regularizers
+
+	p_activation = "relu"
+	input_1 = Input(shape=(imgsize, imgsize, 3))
+	#input_2 = Input(shape=[1], name="angle")
 	
-	# Conv block 1
-	model.add(Conv2D(64,kernel_size=(3, 3),activation='relu',input_shape=(imgsize,imgsize,3)))
-	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu' ))
-	model.add(Conv2D(64, kernel_size=(3, 3), activation='relu' ))
-	model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
+	convFilters = [32, 64, 128, 128, 128]
+	
+	c = input_1
+	for i in range(len(convFilters)):
+		c = Conv2D(convFilters[i], kernel_size = (3,3), activation=p_activation) (c)
+		c = MaxPooling2D((2,2)) (c)
+		c = Dropout(0.2)(c)
 
-	# Conv block 2
-	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
-	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
-	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu' ))
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	d = Flatten()(c)
+	d = BatchNormalization()(d)
 
-	# Conv block 3
-	model.add(Conv2D(128, kernel_size=(3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	denseFilters = [256,128,128, 64]
+	
+	for i in range(len(denseFilters)):
+		d = Dense(denseFilters[i], activation=p_activation)(d)
+		d = Dropout(0.2)(d)
+	
+	output = Dense(1, activation="sigmoid")(d)
 
-	#Conv block 4
-	model.add(Conv2D(256, kernel_size=(3, 3), activation='relu'))
-	model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+	model = Model(input_1,  output)
 
-	# Flatten before dense
-	model.add(Flatten())
-
-	#Dense 1
-	model.add(Dense(1024, activation='relu'))
-	#model.add(Dropout(0.4))
-
-	#Dense 2
-	model.add(Dense(512, activation='relu'))
-	#model.add(Dropout(0.2))
-
-	# Output 
-	model.add(Dense(1, activation="sigmoid"))
-
-	mypotim=Adam(lr=0.0001, decay=0.0)
-	model.compile(loss='binary_crossentropy',optimizer=mypotim,metrics=['accuracy'])
+	#optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	optimizer = Adam(lr=5e-5) #1e-4
+	#optimizer = SGD(lr=1e-1, momentum=0.9, nesterov=True)
+	model.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
 	model.summary()
 	return model
 
@@ -191,27 +184,31 @@ def getcnn(imgsize):
 	from keras import initializers
 
 	def init():
-    		return initializers.RandomUniform(minval=-0.1, maxval=0.1, seed=None)
+    		return initializers.RandomUniform(minval= -0.05, maxval= 0.05, seed=None)
 
 	#Building the model
 	gmodel=Sequential()
 	#Conv Layer 1
-	gmodel.add(Conv2D(64,kernel_size=(3, 3),activation='relu',input_shape=(imgsize,imgsize,3),kernel_initializer=init() ))
+	gmodel.add(Conv2D(128,kernel_size=(3, 3),activation='relu',
+		input_shape=(imgsize,imgsize,3),padding='valid',kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 	
 	#Conv Layer 2
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
+	gmodel.add(Conv2D(128, kernel_size=(3, 3),activation='relu',padding='valid',
+		kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 
 	#Conv Layer 3
-	gmodel.add(Conv2D(128, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
+	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu',padding='valid',
+		kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 	
 	#Conv Layer 4
-	gmodel.add(Conv2D(64, kernel_size=(3, 3), activation='relu',kernel_initializer=init() ))
+	gmodel.add(Conv2D(64, kernel_size=(3, 3),activation='relu',padding='valid',
+		kernel_initializer=init() ))
 	gmodel.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 	gmodel.add(Dropout(0.2))
 
@@ -219,14 +216,14 @@ def getcnn(imgsize):
 	gmodel.add(Flatten())
 	
 	#Dense Layers
-	gmodel.add(Dense(512,kernel_initializer=init() ))
+	gmodel.add(Dense(128,kernel_initializer=init() ))
 	gmodel.add(Activation('relu'))
-	#gmodel.add(Dropout(0.2))
+	gmodel.add(Dropout(0.1))
 
 	#Dense Layer 2
-	gmodel.add(Dense(256,kernel_initializer=init() ))
+	gmodel.add(Dense(64,kernel_initializer=init() ))
 	gmodel.add(Activation('relu'))
-	#gmodel.add(Dropout(0.2))
+	gmodel.add(Dropout(0.1))
 	
 	#Sigmoid Layer
 	gmodel.add(Dense(1,kernel_initializer=init() ))
@@ -234,10 +231,55 @@ def getcnn(imgsize):
 	#from keras.optimizers import SGD
 	#mypotim=Adamax(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-05, decay=0.0) # eps = 1e-8
 	#mypotim = SGD(lr=0.001, momentum=0.01, decay=0.0, nesterov=True)
-	mypotim=Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # eps = 1e-8
+	mypotim=Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0) # eps = 1e-8
 	gmodel.compile(loss='binary_crossentropy',optimizer=mypotim,metrics=['accuracy'])
-	#gmodel.summary()
+	gmodel.summary()
 	return gmodel
+
+def getcnn2(imgsize):
+	from keras.layers.normalization import BatchNormalization
+	from keras.layers import GlobalMaxPooling2D
+	bn_model = 0
+	p_activation = "elu"
+	input_1 = Input(shape=(imgsize, imgsize, 3), name="X_1")
+	#input_2 = Input(shape=[1], name="angle")
+
+	img_1 = Conv2D(32, kernel_size = (3,3), activation=p_activation) ((BatchNormalization(momentum=bn_model))(input_1))
+	img_1 = Conv2D(32, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = MaxPooling2D((2,2)) (img_1)
+	img_1 = Dropout(0.2)(img_1)
+	img_1 = Conv2D(64, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = Conv2D(64, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = MaxPooling2D((2,2)) (img_1)
+	img_1 = Dropout(0.2)(img_1)
+	img_1 = Conv2D(128, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = Conv2D(128, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = MaxPooling2D((2,2)) (img_1)
+	img_1 = Dropout(0.2)(img_1)
+	img_1 = Conv2D(128, kernel_size = (3,3), activation=p_activation) (img_1)
+	img_1 = MaxPooling2D((2,2)) (img_1)
+	img_1 = Dropout(0.2)(img_1)
+	img_1 = GlobalMaxPooling2D() (img_1)
+
+
+	img_2 = Conv2D(128, kernel_size = (3,3), activation=p_activation) ((BatchNormalization(momentum=bn_model))(input_1))
+	img_2 = MaxPooling2D((2,2)) (img_2)
+	img_2 = Dropout(0.2)(img_2)
+	img_2 = GlobalMaxPooling2D() (img_2)
+
+	#img_concat =  (Concatenate()([img_1, img_2, BatchNormalization(momentum=bn_model)(input_2)]))
+
+	dense_layer = BatchNormalization(momentum=bn_model) ( Dense(256, activation=p_activation)(img_2) )
+	dense_layer = Dropout(0.2)(dense_layer)
+	dense_layer = BatchNormalization(momentum=bn_model) ( Dense(128, activation=p_activation)(dense_layer) )
+	dense_layer = Dropout(0.2)(dense_layer)
+	output = Dense(1, activation="sigmoid")(dense_layer)
+
+	model = Model(input_1,  output)
+	optimizer = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+	model.compile(loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"])
+	model.summary()
+	return model
 
 # We choose a high patience so the algorthim keeps searching even after finding a maximum
 def get_callbacks(filepath, patience=8):	
@@ -272,7 +314,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	np.random.seed(7)
 	
 	epo = 300
-	bsize = 25#100
+	bsize = 25
 	imgsize = xtr.shape[1]
 	saveStr = 'iceunsup2/Epo'+str(epo)+'Bsize'+str(bsize)+'h'+str(h)+'flip'+str(flip)+'ind'+str(ind)
 	saveStr = 'weights/' + saveStr + '.hdf5' #'{epoch:02d}-{val_loss:.2f}.hdf5'
@@ -286,15 +328,16 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		xtr, ytr = iceDataPrep.augmentFlip(xtr, ytr)
 
 	# KERAS NEURAL NETWORK
-	
+	'''
 	# Get or make the model. Need a different model for each trimsize
 	if os.path.exists('models/iceModel' + str(imgsize)):# and ind!=0 and ind!=50: #and ind!=100:
 		model = load_model('models/iceModel' + str(imgsize) )
 	else:
-		model = getcnn(imgsize)
-		#os.remove('models/iceModel' + str(imgsize) )
-		model.save('models/iceModel' + str(imgsize) )
-	
+	'''
+	model = getCNN(imgsize)
+	os.remove('models/iceModel' + str(imgsize) )
+	model.save('models/iceModel' + str(imgsize) )
+	'''
 	# Get or do the run. No need to run things more than necessary, right?
 	if os.path.exists(saveStr):
 		print 'Pulling index', ind, 'from previous runs'
@@ -303,7 +346,7 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 		if scores[1] < 0.90:
 			os.remove(saveStr)
 			print ' '
-			print "Bad saved trial due to testing acc < 88%. Rerunning ..."
+			print "Bad saved trial due to testing acc < 90%. Rerunning ..."
 			print ' '
 			callbacks = get_callbacks(filepath=saveStr, patience=80)
 			# Fit the model
@@ -315,14 +358,15 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 				callbacks=callbacks)
 	
 	else:
-		callbacks = get_callbacks(filepath=saveStr, patience=40)
-		# Fit the model
-		model.fit(xtr, ytr,
-			batch_size=bsize,
-			epochs=epo,
-			verbose=2,
-			validation_data=(xte, yte),
-			callbacks=callbacks)
+	'''
+	callbacks = get_callbacks(filepath=saveStr, patience=80)
+	# Fit the model
+	model.fit(xtr, ytr,
+		batch_size=bsize,
+		epochs=epo,
+		verbose=2,
+		validation_data=(xte, yte),
+		callbacks=callbacks)
 
 	# evaluate the model
 	model.load_weights(saveStr)
@@ -344,7 +388,8 @@ def cnn(xtr, ytr, xte, yte, unlab, h, flip, ind):
 	if results[1, 1] < 0.90:
 		os.remove(saveStr)
 		print ' '
-		print "Rerunning trial, due to testing acc < 88%"
+		print 'Testing acc at', results[1, 1]*100.0, "%"
+		print "Rerunning trial, due to testing acc < 90%"
 		print ' '
 		prediction, results = cnn(xtr, ytr, xte, yte, unlab, h, flip, ind)	
 

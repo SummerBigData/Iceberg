@@ -23,9 +23,9 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-avgCsvStr = 'submits/subnewModWAvging7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+avgCsvStr = 'submits/subnewModWAvging7-30dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
 
-pseuCsvStr = 'submits/subpseuWAvgingUnsup7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
+pseuCsvStr = 'submits/subpseuWAvgingUnsup7-30dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
 
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
@@ -184,12 +184,12 @@ def VarNorm(xtr, xte, unlab):
 xtr, ytr, xte, yte = iceDataPrep.dataprep()
 unlab, name = grabUnlab()
 xtr, xte, unlab = VarNorm(xtr, xte, unlab)
-
+'''
 xtr = iceDataPrep.filterHessian(xtr, 8)
 xte = iceDataPrep.filterHessian(xte, 8)
 unlab = iceDataPrep.filterHessian(unlab, 8)
-
-avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
+'''
+avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 0) # 125 for Hess, 0 for regular
 
 
 #pred,scores=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, 125)

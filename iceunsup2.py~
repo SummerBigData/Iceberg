@@ -23,9 +23,9 @@ print 'You have chosen:', g
 print ' '
 
 csvStr = 'submits/subWAvging7-23dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
-avgCsvStr = 'submits/subnewModWAvging7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
+avgCsvStr = 'submits/subnewModWAvging7-30dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'.csv'
 
-pseuCsvStr = 'submits/subpseuWAvgingUnsup7-26dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
+pseuCsvStr = 'submits/subpseuWAvgingUnsup7-30dn'+str(g.h)+'flip'+str(g.flip)+'iters'+str(g.iters)+'incl'+'all'+'.csv'
 
 
 #----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE----------DEFINITIONS HERE
@@ -165,14 +165,11 @@ def VarNorm(xtr, xte, unlab):
 	#print 'Min Max', np.amin(xtr), np.amax(xtr)
 	#print 'Variance', np.std(xtr)**2
 	Range /= np.std(xtr)
-
 	xtrV, _, _ = Norm(xtr, 0, Range)
 	xteV, _, _ = Norm(xte, 0, Range)
 	unlabV, _, _v=Norm(unlab, 0, Range)
-	
 	#print 'Min Max', np.amin(xtrV), np.amax(xtrV)
 	#print 'Variance', np.std(xtrV)**2
-
 	return xtrV, xteV, unlabV
 
 	
@@ -192,7 +189,7 @@ xtr = iceDataPrep.filterHessian(xtr, 8)
 xte = iceDataPrep.filterHessian(xte, 8)
 unlab = iceDataPrep.filterHessian(unlab, 8)
 
-avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125)
+avgPred, medPred = runCnns(xtr, ytr, xte, yte, unlab, 125) # 125 for Hess, 0 for regular
 
 
 #pred,scores=iceF.cnn(xtr, ytr, xte, yte, unlab, g.h, g.flip, 125)
@@ -227,9 +224,9 @@ ShowSquare(plotimg)
 '''
 
 # Save the prediction
-SavePred(avgPred, name, 'avg')
+SavePred(avgPred, name, 'Hessavg')
 
-SavePred(medPred, name, 'med')
+SavePred(medPred, name, 'Hessmed')
 
 #print 'Training percent for iter', g.iters, 'is', scores[ 0, 1]*100, 'with log loss', scores[ 0, 0]
 #print 'Testing percent for iter', g.iters, 'is', scores[ 1, 1]*100, 'with log loss', scores[ 1, 0]
